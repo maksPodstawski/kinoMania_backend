@@ -1,5 +1,6 @@
-package com.kinomania.kinomania.model;
+package com.kinomania.kinomania.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,12 +16,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
 
-    @Column
+    @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(unique = true, nullable = false)
+    private String email;
+
     @Column
+    @JsonIgnore
     private String password;
 
     @Column
     private boolean vip_status;
+
+    @Column
+    private String role;
 }
