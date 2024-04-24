@@ -57,7 +57,13 @@ public class AuthService {
                     .status("User already exists")
                     .accessToken("")
                     .build();
-
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        if(userRepository.existsByEmail(email)){
+            RegisterResponse response = RegisterResponse.builder()
+                    .status("Email is taken")
+                    .accessToken("")
+                    .build();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
