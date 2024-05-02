@@ -26,4 +26,10 @@ public class Employee {
     @OneToOne
     @JoinColumn(name = "position_id")
     private Position position;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "surname")
+    private String surname;
 }
