@@ -16,6 +16,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -25,10 +27,15 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     public LoginResponse attemptLogin(String username, String password) {
 
         var token = generateAuthToken(username, password);
+
+        if (token != null) {
+            userService.updateLastLogin(username);
+        }
 
         return LoginResponse.builder()
                 .accessToken(token)
@@ -73,6 +80,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(password));
         user.setRole("ROLE_USER");
         user.setVip_status(false);
+        user.setCreated_at(LocalDateTime.now());
 
         userRepository.save(user);
 

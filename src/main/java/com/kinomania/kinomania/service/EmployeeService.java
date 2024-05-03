@@ -9,6 +9,8 @@ import com.kinomania.kinomania.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
@@ -27,5 +29,9 @@ public class EmployeeService {
         employee.setPosition(positionService.getPositionById(employeeDto.getPositionId()));
         employee.setUser(userService.getUserById(employeeDto.getUserId()));
         employeeRepository.save(employee);
+    }
+
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
     }
 }

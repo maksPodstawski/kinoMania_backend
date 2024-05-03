@@ -5,6 +5,8 @@ import com.kinomania.kinomania.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +27,16 @@ public class UserService {
 
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public void updateLastLogin(String username) {
+        var user = userRepository.findByUsername(username);
+        user.setLast_login_at(LocalDateTime.now());
+        userRepository.save(user);
     }
 }
 

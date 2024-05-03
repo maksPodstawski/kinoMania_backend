@@ -3,6 +3,7 @@ package com.kinomania.kinomania.controller;
 import com.kinomania.kinomania.entity.Cinema;
 import com.kinomania.kinomania.entity.Employee;
 import com.kinomania.kinomania.entity.Movie;
+import com.kinomania.kinomania.entity.User;
 import com.kinomania.kinomania.model.EmployeeDto;
 import com.kinomania.kinomania.model.RoomDto;
 import com.kinomania.kinomania.model.ScreeningDto;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
+import java.util.List;
 
 
 @RestController
@@ -30,6 +32,7 @@ public class PanelController {
     private final EmployeeService employeeService;
     private final RoomService roomService;
     private final ScreeningService screeningService;
+    private final UserService userService;
 
     @PostMapping("/api/v1/panel/addMovie")
     public String addMovie(@AuthenticationPrincipal UserPrincipal principal, @RequestBody Movie movie) {
@@ -66,4 +69,13 @@ public class PanelController {
         return "Screening added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
     }
 
+    @GetMapping("/api/v1/panel/getUsers")
+    public List<User> getUsers(@AuthenticationPrincipal UserPrincipal principal) {
+        return userService.getAllUsers();
+    }
+
+    @GetMapping("/api/v1/panel/getEmployees")
+    public List<Employee> getEmployees(@AuthenticationPrincipal UserPrincipal principal) {
+        return employeeService.getAllEmployees();
+    }
 }
