@@ -29,4 +29,8 @@ public class ScreeningService {
         screening.setPrice(BigDecimal.valueOf(screeningDto.getPrice()));
         screeningRepository.save(screening);
     }
+
+    public Screening getScreeningById(Long id) {
+        return screeningRepository.findById(id).orElseThrow();
+    }
 }

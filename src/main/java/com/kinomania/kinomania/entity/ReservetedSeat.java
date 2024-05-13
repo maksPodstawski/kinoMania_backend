@@ -1,0 +1,26 @@
+package com.kinomania.kinomania.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Table(name = "reserveted_seats")
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ReservetedSeat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long resevated_seat_id;
+
+    @OneToOne
+    @JoinColumn(name = "reservation_id")
+    private Reservation reservation;
+
+    @OneToOne
+    @JoinColumn(name = "seat_id")
+    private Seat seat;
+
+}

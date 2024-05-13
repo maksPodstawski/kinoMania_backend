@@ -7,6 +7,7 @@ import com.kinomania.kinomania.entity.User;
 import com.kinomania.kinomania.model.EmployeeDto;
 import com.kinomania.kinomania.model.RoomDto;
 import com.kinomania.kinomania.model.ScreeningDto;
+import com.kinomania.kinomania.model.SeatsDto;
 import com.kinomania.kinomania.repository.CinemaRepository;
 import com.kinomania.kinomania.security.UserPrincipal;
 import com.kinomania.kinomania.service.*;
@@ -33,6 +34,7 @@ public class PanelController {
     private final RoomService roomService;
     private final ScreeningService screeningService;
     private final UserService userService;
+    private final SeatsService seatsService;
 
     @PostMapping("/api/v1/panel/addMovie")
     public String addMovie(@AuthenticationPrincipal UserPrincipal principal, @RequestBody Movie movie) {
@@ -77,5 +79,11 @@ public class PanelController {
     @GetMapping("/api/v1/panel/getEmployees")
     public List<Employee> getEmployees(@AuthenticationPrincipal UserPrincipal principal) {
         return employeeService.getAllEmployees();
+    }
+
+    @PostMapping("/api/v1/panel/addRoomToSeats")
+    public String addRoomToSeats(@AuthenticationPrincipal UserPrincipal principal, @RequestBody SeatsDto seatsDto) {
+        seatsService.saveAllSeats(seatsDto);
+        return "Seats added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
     }
 }
