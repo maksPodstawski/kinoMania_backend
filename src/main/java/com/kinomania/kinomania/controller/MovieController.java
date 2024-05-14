@@ -2,8 +2,10 @@ package com.kinomania.kinomania.controller;
 
 import com.kinomania.kinomania.entity.Movie;
 import com.kinomania.kinomania.entity.Screening;
+import com.kinomania.kinomania.service.CinemaService;
 import com.kinomania.kinomania.service.MovieService;
 import com.kinomania.kinomania.service.ScreeningService;
+import com.kinomania.kinomania.entity.Cinema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,7 @@ public class MovieController {
 
     private final MovieService movieService;
     private final ScreeningService screeningService;
+    private final CinemaService cinemaService;
 
 
     @GetMapping("/api/v1/movies")
@@ -40,6 +43,12 @@ public class MovieController {
     @ResponseBody
     public Screening getScreening(@PathVariable Long id) {
         return screeningService.getScreeningById(id);
+    }
+
+    @GetMapping("/api/v1/getCinemas")
+    @ResponseBody
+    public List<Cinema> getCinemas() {
+        return cinemaService.getCinemas();
     }
 
 

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.kinomania.kinomania.service.CinemaService;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CinemaService {
@@ -17,6 +19,10 @@ public class CinemaService {
 
     public void save(Cinema cinema) {
         cinemaRepository.save(cinema);
+    }
+
+    public List<Cinema> getCinemas() {
+        return cinemaRepository.findAll();
     }
 
     public Cinema getCinemaById(Long id) {
