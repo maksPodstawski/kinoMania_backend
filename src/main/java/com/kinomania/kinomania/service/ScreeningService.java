@@ -11,6 +11,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +33,9 @@ public class ScreeningService {
 
     public Screening getScreeningById(Long id) {
         return screeningRepository.findById(id).orElseThrow();
+    }
+
+    public List<Screening> getAllScreenings() {
+        return screeningRepository.findAll();
     }
 }
