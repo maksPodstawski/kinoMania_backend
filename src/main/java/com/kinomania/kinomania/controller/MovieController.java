@@ -51,5 +51,11 @@ public class MovieController {
         return cinemaService.getCinemas();
     }
 
+    @GetMapping("/api/v1/getScreening/{city}")
+    @ResponseBody
+    public List<Screening> getScreeningByCity(@PathVariable String city) {
+        return screeningService.getScreeningByCity(city);
+    }
+
 
 }

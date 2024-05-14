@@ -38,4 +38,8 @@ public class ScreeningService {
     public List<Screening> getAllScreenings() {
         return screeningRepository.findAll();
     }
+
+    public List<Screening> getScreeningByCity(String city) {
+        return screeningRepository.findScreeningByRoomCinemaCity(city);
+    }
 }
