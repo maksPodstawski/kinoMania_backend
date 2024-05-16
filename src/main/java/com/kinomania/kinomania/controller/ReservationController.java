@@ -32,4 +32,5 @@ public class ReservationController {
     public List<Seat> getSeats(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long roomID){
         return seatsService.getSeatsByRoomId(roomID);
     }
+
 }
