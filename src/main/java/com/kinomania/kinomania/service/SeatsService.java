@@ -8,6 +8,8 @@ import com.kinomania.kinomania.repository.SeatsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SeatsService {
@@ -27,5 +29,9 @@ public class SeatsService {
                     seatsRepository.save(seat);
                 }
             }
+    }
+
+    public List<Seat> getSeatsByRoomId(Long roomID){
+        return seatsRepository.findSeatsByRoomId(roomID);
     }
 }

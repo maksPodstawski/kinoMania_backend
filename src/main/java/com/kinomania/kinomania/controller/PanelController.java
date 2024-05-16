@@ -14,10 +14,7 @@ import com.kinomania.kinomania.service.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
@@ -85,5 +82,11 @@ public class PanelController {
     public String addRoomToSeats(@AuthenticationPrincipal UserPrincipal principal, @RequestBody SeatsDto seatsDto) {
         seatsService.saveAllSeats(seatsDto);
         return "Seats added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
+    }
+
+    @DeleteMapping("/api/v1/panel/removeMovie/{movieId}")
+    public String removeMovie(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long movieId){
+        movieService.deleteMovie(movieId);
+        return "Move deleted successfully by "  + principal.getUsername() + " ID: " + principal.getUserId();
     }
 }

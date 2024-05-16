@@ -2,6 +2,8 @@ package com.kinomania.kinomania.service;
 
 import com.kinomania.kinomania.entity.Movie;
 import com.kinomania.kinomania.repository.MovieRepository;
+import com.kinomania.kinomania.repository.ScreeningRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.Optional;
 public class MovieService {
 
     private final MovieRepository movieRepository;
+
+    private final ScreeningRepository screeningRepository;
 
     public List<Movie> getAllMovies() {
         return movieRepository.findAll();
@@ -28,6 +32,21 @@ public class MovieService {
 
     public void saveMovie(Movie movie) {
         movieRepository.save(movie);
+    }
+
+    @Transactional
+    public void deleteMovie(Long id){
+
+        try {
+            screeningRepository.deleteScreeningsByMovieId(id);
+
+
+            movieRepository.deleteById(id);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }
