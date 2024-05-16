@@ -21,4 +21,7 @@ public class Cinema {
 
     @Column
     private String city;
+
+    @Column
+    private String image_url;
 }
