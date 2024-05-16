@@ -40,6 +40,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/auth/login").permitAll()
                         .requestMatchers("/api/v1/auth/register").permitAll()
                         .requestMatchers("/api/v1/getCinemas").permitAll()
+                        .requestMatchers("/api/v1/getScreening/{city}").permitAll()
+                        .requestMatchers("/api/v1/movie/**").permitAll()
                         .requestMatchers("/api/v1/panel").hasRole("ADMIN")
                         .requestMatchers("/api/v1/panel/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
