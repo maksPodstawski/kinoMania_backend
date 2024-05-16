@@ -43,6 +43,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/getScreening/{city}").permitAll()
                         .requestMatchers("/api/v1/movie/**").permitAll()
                         .requestMatchers("/api/v1/panel").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/panel/removeMovie/${selectedMovie}").hasRole("ADMIN")
                         .requestMatchers("/api/v1/panel/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
