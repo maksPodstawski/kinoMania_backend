@@ -24,7 +24,8 @@ public class ReservationService {
             Reservation savedReservation = reservationRepository.saveAndFlush(reservation);
 
             if (savedReservation != null) {
-                saveReservationWithSeat(savedReservation.getReservation_id(), reservationDto.getSeatId());
+                for(var r : reservationDto.getSeatsId())
+                    saveReservationWithSeat(savedReservation.getReservation_id(), r);
             } else {
                 System.err.println("Saved reservation is null");
             }
