@@ -20,7 +20,6 @@ public class ScreeningService {
     private final ScreeningRepository screeningRepository;
     private final RoomService roomService;
     private final MovieService movieService;
-    private final SeatsService seatsService;
 
     public void save(ScreeningDto screeningDto) throws ParseException {
         Screening screening = new Screening();

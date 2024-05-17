@@ -4,6 +4,7 @@ package com.kinomania.kinomania.service;
 import com.kinomania.kinomania.entity.Room;
 import com.kinomania.kinomania.entity.Seat;
 import com.kinomania.kinomania.model.SeatsDto;
+import com.kinomania.kinomania.repository.ReservationRepository;
 import com.kinomania.kinomania.repository.SeatsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,4 +40,5 @@ public class SeatsService {
     public Seat getSeatById(Long seatId) {
         return seatsRepository.findById(seatId).orElseThrow(() -> new RuntimeException("Seat not found"));
     }
+
 }
