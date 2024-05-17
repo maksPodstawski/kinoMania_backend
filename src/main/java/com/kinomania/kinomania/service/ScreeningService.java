@@ -1,6 +1,7 @@
 package com.kinomania.kinomania.service;
 
 import com.kinomania.kinomania.entity.Screening;
+import com.kinomania.kinomania.entity.Seat;
 import com.kinomania.kinomania.model.ScreeningDto;
 import com.kinomania.kinomania.repository.ScreeningRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class ScreeningService {
     private final ScreeningRepository screeningRepository;
     private final RoomService roomService;
     private final MovieService movieService;
+    private final SeatsService seatsService;
 
     public void save(ScreeningDto screeningDto) throws ParseException {
         Screening screening = new Screening();

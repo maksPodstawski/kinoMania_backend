@@ -13,4 +13,5 @@ public interface SeatsRepository extends JpaRepository<Seat, Long> {
 
     @Query("SELECT s FROM Seat s WHERE s.room.room_id = :roomId")
     List<Seat> findSeatsByRoomId(@Param("roomId") Long roomId);
+
 }

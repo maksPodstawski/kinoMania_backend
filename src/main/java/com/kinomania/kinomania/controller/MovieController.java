@@ -2,6 +2,7 @@ package com.kinomania.kinomania.controller;
 
 import com.kinomania.kinomania.entity.Movie;
 import com.kinomania.kinomania.entity.Screening;
+import com.kinomania.kinomania.entity.Seat;
 import com.kinomania.kinomania.service.CinemaService;
 import com.kinomania.kinomania.service.MovieService;
 import com.kinomania.kinomania.service.ScreeningService;
@@ -56,6 +57,5 @@ public class MovieController {
     public List<Screening> getScreeningByCity(@PathVariable String city) {
         return screeningService.getScreeningByCity(city);
     }
-
 
 }

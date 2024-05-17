@@ -24,8 +24,8 @@ public class SeatsService {
                 for(int j = 0; j < seatsDTO.getColumns(); j++) {
                     Seat seat = new Seat();
                     seat.setRoom(room);
-                    seat.setSeat_row(i);
-                    seat.setSeat_column(j);
+                    seat.setSeat_row(i+1);
+                    seat.setSeat_column(j+1);
                     seatsRepository.save(seat);
                 }
             }
@@ -34,4 +34,6 @@ public class SeatsService {
     public List<Seat> getSeatsByRoomId(Long roomID){
         return seatsRepository.findSeatsByRoomId(roomID);
     }
+
+
 }
