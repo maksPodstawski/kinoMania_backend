@@ -7,6 +7,8 @@ import com.kinomania.kinomania.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RoomService {
@@ -16,7 +18,8 @@ public class RoomService {
 
     public void save(RoomDto roomDto) {
         Room room = new Room();
-        room.setCinema(cinemaRepository.findById(roomDto.getCinemaId()).orElseThrow(() -> new RuntimeException("Cinema not found")));
+        room.setCinema(cinemaRepository.findById(roomDto.getCinemaId())
+                .orElseThrow(() -> new RuntimeException("Cinema not found")));
         room.setRoom_number(roomDto.getRoomNumber());
         room.setNumber_of_seats(roomDto.getNumberOfSeats());
         roomRepository.save(room);
@@ -26,4 +29,8 @@ public class RoomService {
         return roomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room not found"));
     }
 
+    public List<Room> getAllRooms() {
+        return roomRepository.findAll();
+    }
 }
+
