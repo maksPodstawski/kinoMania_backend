@@ -19,7 +19,6 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final UserService userService;
     private final ScreeningService screeningService;
-    private final ReservatedSeatService reservatedSeatService;
     private final SeatsService seatsService;
 
     @Transactional
@@ -34,6 +33,10 @@ public class ReservationService {
         }
         reservation.setReservedSeats(seats);
         reservationRepository.save(reservation);
+    }
+
+    public List<Seat> getReservatedSeats(Long screeningID){
+        return reservationRepository.findAllReservatedSeatsByScreeningId(screeningID);
     }
 
 }

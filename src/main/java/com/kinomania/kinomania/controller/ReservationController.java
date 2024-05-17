@@ -33,4 +33,10 @@ public class ReservationController {
         return seatsService.getSeatsByRoomId(roomID);
     }
 
+    @GetMapping("/api/v1/reservatedSeats/{screeningID}")
+    @ResponseBody
+    public List<Seat> getReservatedSeats(@PathVariable Long screeningID){
+        return reservationService.getReservatedSeats(screeningID);
+    }
+
 }
