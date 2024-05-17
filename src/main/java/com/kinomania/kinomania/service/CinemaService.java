@@ -25,9 +25,7 @@ public class CinemaService {
     public Cinema getCinemaById(Long id) {
         return cinemaRepository.findById(id).orElseThrow(() -> new RuntimeException("Cinema not found"));
     }
-
-    @Transactional
     public void deleteCinema(Long id) {
-        cinemaRepository.deleteById(id);
-    }
+    cinemaRepository.deleteById(id);
+}
 }

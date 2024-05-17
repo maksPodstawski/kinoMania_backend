@@ -89,12 +89,14 @@ public class PanelController {
         movieService.deleteMovie(movieId);
         return "Move deleted successfully by "  + principal.getUsername() + " ID: " + principal.getUserId();
     }
-
+    @DeleteMapping("/api/v1/panel/removeCinema/{cinemaId}")
+    public String removeCinema(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long cinemaId){
+        cinemaService.deleteCinema(cinemaId);
+        return "Cinema deleted successfully by "  + principal.getUsername() + " ID: " + principal.getUserId();
+    }
     @PostMapping("/api/v1/panel/addRoomToCinema")
     public String addRoomToCinema(@AuthenticationPrincipal UserPrincipal principal, @RequestBody RoomDto roomDto) {
         roomService.save(roomDto);
         return "Room added successfully to Cinema by " + principal.getUsername() + " ID: " + principal.getUserId();
     }
-
-
 }
