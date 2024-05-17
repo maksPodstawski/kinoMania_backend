@@ -1,49 +1,39 @@
 package com.kinomania.kinomania.service;
 
 import com.kinomania.kinomania.entity.Reservation;
+import com.kinomania.kinomania.entity.Seat;
 import com.kinomania.kinomania.model.ReservationDto;
 import com.kinomania.kinomania.repository.ReservationRepository;
 import com.kinomania.kinomania.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class ReservationService {
+
     private final ReservationRepository reservationRepository;
     private final UserService userService;
     private final ScreeningService screeningService;
     private final ReservatedSeatService reservatedSeatService;
+    private final SeatsService seatsService;
 
+    @Transactional
     public void addReservation(ReservationDto reservationDto, UserPrincipal userPrincipal) {
-        try {
-            Reservation reservation = new Reservation();
-            reservation.setScreening(screeningService.getScreeningById(reservationDto.getScreeningId()));
-            reservation.setUser(userService.getUserById(userPrincipal.getUserId()));
-
-            Reservation savedReservation = reservationRepository.saveAndFlush(reservation);
-
-            if (savedReservation != null) {
-                for(var r : reservationDto.getSeatsId())
-                    saveReservationWithSeat(savedReservation.getReservation_id(), r);
-            } else {
-                System.err.println("Saved reservation is null");
-            }
-        } catch (Exception e) {
-            System.err.println("Error while adding reservation: " + e.getMessage());
+        var reservation = new Reservation();
+        reservation.setUser(userService.getUserById(userPrincipal.getUserId()));
+        reservation.setScreening(screeningService.getScreeningById(reservationDto.getScreeningId()));
+        List<Seat> seats = new ArrayList<>();
+        for(Long seatId : reservationDto.getSeatsId()) {
+            var Seat = seatsService.getSeatById(seatId);
+            seats.add(Seat);
         }
-    }
-
-    public void saveReservationWithSeat(Long reservationId, Long seatId) {
-        try {
-            if (reservationId != null && seatId != null) {
-                reservatedSeatService.addReservatedSeat(seatId, reservationId);
-            } else {
-                System.err.println("Reservation ID or Seat ID is null");
-            }
-        } catch (Exception e) {
-            System.err.println("Error while adding reservation: " + e.getMessage());
-        }
+        reservation.setReservedSeats(seats);
+        reservationRepository.save(reservation);
     }
 
 }

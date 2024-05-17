@@ -36,4 +36,7 @@ public class SeatsService {
     }
 
 
+    public Seat getSeatById(Long seatId) {
+        return seatsRepository.findById(seatId).orElseThrow(() -> new RuntimeException("Seat not found"));
+    }
 }

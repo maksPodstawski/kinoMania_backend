@@ -3,6 +3,8 @@ package com.kinomania.kinomania.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "reservations")
 @Getter
@@ -19,10 +21,16 @@ public class Reservation {
     @JoinColumn(name="screening_id")
     private Screening screening;
 
-    @Column
-    private int reservedSeats;
+    @ManyToMany
+    @JoinTable(
+            name = "reserveted_seats",
+            joinColumns = @JoinColumn(name = "reservation_id"),
+            inverseJoinColumns = @JoinColumn(name = "seat_id")
+    )
+    private List<Seat> reservedSeats;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
 }

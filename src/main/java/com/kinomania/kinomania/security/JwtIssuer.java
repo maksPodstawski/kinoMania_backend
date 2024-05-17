@@ -21,7 +21,7 @@ public class JwtIssuer {
     public String issue(Request request){
         return JWT.create()
                 .withSubject(String.valueOf(request.userId))
-                .withExpiresAt(Instant.now().plus(Duration.of(1, ChronoUnit.HOURS)))
+                .withExpiresAt(Instant.now().plus(Duration.of(24, ChronoUnit.HOURS)))
                 .withClaim("username", request.username)
                 .withClaim("authorities", request.getRoles())
                 .sign(Algorithm.HMAC256(properties.getSecretKey()));
