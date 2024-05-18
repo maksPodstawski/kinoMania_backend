@@ -7,6 +7,8 @@ import com.kinomania.kinomania.repository.ReservatedSeatsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ReservatedSeatService {
@@ -20,4 +22,7 @@ public class ReservatedSeatService {
         reservatedSeatsRepository.save(reservatedSeat);
     }
 
+    public List<Seat> findAllReservatedSeatsByScreeningId(Long screeningID) {
+        return reservatedSeatsRepository.findAllReservatedSeatsByScreeningId(screeningID);
+    }
 }

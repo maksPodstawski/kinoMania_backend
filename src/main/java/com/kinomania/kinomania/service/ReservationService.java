@@ -41,8 +41,7 @@ public class ReservationService {
     }
 
     public List<Seat> getReservatedSeats(Long screeningID){
-        //return reservationRepository.findAllReservatedSeatsByScreeningId(screeningID);
-        return new ArrayList<>();
+        return reservatedSeatService.findAllReservatedSeatsByScreeningId(screeningID);
     }
 
 
