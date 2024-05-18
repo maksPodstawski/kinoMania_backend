@@ -21,14 +21,6 @@ public class Reservation {
     @JoinColumn(name="screening_id")
     private Screening screening;
 
-    @ManyToMany
-    @JoinTable(
-            name = "reserveted_seats",
-            joinColumns = @JoinColumn(name = "reservation_id"),
-            inverseJoinColumns = @JoinColumn(name = "seat_id")
-    )
-    private List<Seat> reservedSeats;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

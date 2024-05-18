@@ -20,23 +20,32 @@ public class ReservationService {
     private final UserService userService;
     private final ScreeningService screeningService;
     private final SeatsService seatsService;
+    private final ReservatedSeatService reservatedSeatService;
 
     @Transactional
     public void addReservation(ReservationDto reservationDto, UserPrincipal userPrincipal) {
         var reservation = new Reservation();
         reservation.setUser(userService.getUserById(userPrincipal.getUserId()));
         reservation.setScreening(screeningService.getScreeningById(reservationDto.getScreeningId()));
+
+        reservation = reservationRepository.save(reservation);
+
         List<Seat> seats = new ArrayList<>();
         for(Long seatId : reservationDto.getSeatsId()) {
-            var Seat = seatsService.getSeatById(seatId);
-            seats.add(Seat);
+            var seat = seatsService.getSeatById(seatId);
+            seats.add(seat);
+            reservatedSeatService.addReservatedSeat(reservation, seat);
         }
-        reservation.setReservedSeats(seats);
-        reservationRepository.save(reservation);
+
+
     }
 
     public List<Seat> getReservatedSeats(Long screeningID){
-        return reservationRepository.findAllReservatedSeatsByScreeningId(screeningID);
+        //return reservationRepository.findAllReservatedSeatsByScreeningId(screeningID);
+        return new ArrayList<>();
     }
+
+
+
 
 }

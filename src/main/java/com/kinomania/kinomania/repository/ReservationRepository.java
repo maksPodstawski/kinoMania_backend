@@ -12,6 +12,4 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-    @Query("SELECT r.reservedSeats FROM Reservation r WHERE r.screening.screening_id = :id")
-    List<Seat> findAllReservatedSeatsByScreeningId(@Param("id") Long screeningID);
 }

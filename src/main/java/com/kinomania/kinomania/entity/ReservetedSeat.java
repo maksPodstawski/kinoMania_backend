@@ -20,7 +20,7 @@ public class ReservetedSeat {
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "seat_id")
     private Seat seat;
 
