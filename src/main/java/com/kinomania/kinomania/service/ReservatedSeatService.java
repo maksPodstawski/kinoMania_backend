@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -25,4 +26,5 @@ public class ReservatedSeatService {
     public List<Seat> findAllReservatedSeatsByScreeningId(Long screeningID) {
         return reservatedSeatsRepository.findAllReservatedSeatsByScreeningId(screeningID);
     }
+
 }

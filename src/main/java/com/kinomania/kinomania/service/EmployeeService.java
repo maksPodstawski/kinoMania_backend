@@ -29,9 +29,16 @@ public class EmployeeService {
         employee.setPosition(positionService.getPositionById(employeeDto.getPositionId()));
         employee.setUser(userService.getUserById(employeeDto.getUserId()));
         employeeRepository.save(employee);
+
+        userService.setUpWorkerStatus(employee.getUser());
+
     }
 
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
+    }
+
+    public Cinema getCinemaByUserId(Long id) {
+        return employeeRepository.getCinemaByUserId(id);
     }
 }

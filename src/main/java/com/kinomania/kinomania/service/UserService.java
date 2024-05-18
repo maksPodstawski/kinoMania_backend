@@ -38,5 +38,9 @@ public class UserService {
         user.setLast_login_at(LocalDateTime.now());
         userRepository.save(user);
     }
+
+    public void setUpWorkerStatus(User user){
+        userRepository.updateUserRoleToWorker(user.getUser_id());
+    }
 }
 

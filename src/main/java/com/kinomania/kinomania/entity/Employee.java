@@ -23,7 +23,7 @@ public class Employee {
     @JoinColumn(name="user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "position_id")
     private Position position;
 

@@ -99,4 +99,6 @@ public class PanelController {
         roomService.save(roomDto);
         return "Room added successfully to Cinema by " + principal.getUsername() + " ID: " + principal.getUserId();
     }
+
+
 }
