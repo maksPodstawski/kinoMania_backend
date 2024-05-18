@@ -27,4 +27,9 @@ public interface ReservatedSeatsRepository extends JpaRepository<ReservetedSeat,
             "GROUP BY s.screening_id")
     List<Object[]> findReservedSeatsCountPerScreening(@Param("cinemaId") Long cinemaId);
 
+
+    @Query("SELECT res.reservation.user.user_id, COUNT(res.resevated_seat_id) " +
+            "FROM ReservetedSeat res " +
+            "GROUP BY res.reservation.user.user_id")
+    List<Object[]> findUsersReservationsCount();
 }

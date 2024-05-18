@@ -1,6 +1,7 @@
 package com.kinomania.kinomania.service;
 
 import com.kinomania.kinomania.model.ScreeningTicketsDTO;
+import com.kinomania.kinomania.model.UserTicketsDTO;
 import com.kinomania.kinomania.repository.ReservatedSeatsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,19 @@ public class ReportService {
         }
 
         return screeningTicketsDTOList;
+    }
+
+    public List<UserTicketsDTO> getUsersTicketsAmount( ) {
+        List<Object[]> results = reservatedSeatsRepository.findUsersReservationsCount();
+        List<UserTicketsDTO> userTicketsDTOList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Long userId = (Long) result[0];
+            Long ticketsAmount = (Long) result[1];
+            UserTicketsDTO userTicketsDTO = new UserTicketsDTO(userId, ticketsAmount);
+            userTicketsDTOList.add(userTicketsDTO);
+        }
+
+        return userTicketsDTOList;
     }
 }
