@@ -16,13 +16,12 @@ public class RoomService {
     private final CinemaRepository cinemaRepository;
     private final RoomRepository roomRepository;
 
-    public void save(RoomDto roomDto) {
+    public Room save(RoomDto roomDto) {
         Room room = new Room();
         room.setCinema(cinemaRepository.findById(roomDto.getCinemaId())
                 .orElseThrow(() -> new RuntimeException("Cinema not found")));
         room.setRoom_number(roomDto.getRoomNumber());
-        room.setNumber_of_seats(roomDto.getNumberOfSeats());
-        roomRepository.save(room);
+        return roomRepository.save(room);
     }
 
     public Room getRoomById(Long roomId) {

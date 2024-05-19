@@ -9,5 +9,5 @@ public class SeatsDto {
     private int Rows;
     private int Columns;
 
-    private int RoomId;
+    private Long RoomId;
 }

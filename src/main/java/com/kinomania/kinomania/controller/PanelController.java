@@ -1,13 +1,7 @@
 package com.kinomania.kinomania.controller;
 
-import com.kinomania.kinomania.entity.Cinema;
-import com.kinomania.kinomania.entity.Employee;
-import com.kinomania.kinomania.entity.Movie;
-import com.kinomania.kinomania.entity.User;
-import com.kinomania.kinomania.model.EmployeeDto;
-import com.kinomania.kinomania.model.RoomDto;
-import com.kinomania.kinomania.model.ScreeningDto;
-import com.kinomania.kinomania.model.SeatsDto;
+import com.kinomania.kinomania.entity.*;
+import com.kinomania.kinomania.model.*;
 import com.kinomania.kinomania.repository.CinemaRepository;
 import com.kinomania.kinomania.security.UserPrincipal;
 import com.kinomania.kinomania.service.*;
@@ -67,6 +61,26 @@ public class PanelController {
         screeningService.save(screeningDto);
         return "Screening added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
     }
+
+    @PostMapping("/api/v1/panel/addRoomWithSeats")
+    public String addRoomWithSeats(@AuthenticationPrincipal UserPrincipal principal, @RequestBody SeatsAndRoomDTO seatsAndRoomDTO) {
+        RoomDto roomDto = RoomDto.builder()
+                                 .cinemaId(seatsAndRoomDTO.getCinemaId())
+                                 .roomNumber(seatsAndRoomDTO.getRoomNumber())
+                                 .build();
+
+        Room room = roomService.save(roomDto);
+
+        SeatsDto seatsDto = SeatsDto.builder()
+                                    .RoomId(room.getRoom_id())
+                                    .Rows(seatsAndRoomDTO.getRows())
+                                    .Columns(seatsAndRoomDTO.getColumns())
+                                    .build();
+        seatsService.saveAllSeats(seatsDto);
+        return "Room with seats added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
+    }
+
+
 
     @GetMapping("/api/v1/panel/getUsers")
     public List<User> getUsers(@AuthenticationPrincipal UserPrincipal principal) {
