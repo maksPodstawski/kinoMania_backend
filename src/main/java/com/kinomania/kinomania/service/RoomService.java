@@ -28,6 +28,10 @@ public class RoomService {
         return roomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room not found"));
     }
 
+    public List<Room> getRoomsByCinema(Long cinemaId) {
+        return roomRepository.findByCinema_CinemaId(cinemaId);
+    }
+
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
