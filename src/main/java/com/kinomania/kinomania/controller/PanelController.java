@@ -78,7 +78,7 @@ public class PanelController {
         return employeeService.getAllEmployees();
     }
 
-    @PostMapping("/api/v1/panel/addRoomToSeats")
+    @PostMapping("/api/v1/panel/addSeatsToRoom")
     public String addRoomToSeats(@AuthenticationPrincipal UserPrincipal principal, @RequestBody SeatsDto seatsDto) {
         seatsService.saveAllSeats(seatsDto);
         return "Seats added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
