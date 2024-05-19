@@ -2,7 +2,9 @@ package com.kinomania.kinomania.controller;
 
 
 import com.kinomania.kinomania.entity.Movie;
+import com.kinomania.kinomania.entity.Reservation;
 import com.kinomania.kinomania.model.ScreeningTicketsDTO;
+import com.kinomania.kinomania.model.UserReservationsDTO;
 import com.kinomania.kinomania.model.UserTicketsDTO;
 import com.kinomania.kinomania.security.UserPrincipal;
 import com.kinomania.kinomania.service.EmployeeService;
@@ -33,5 +35,11 @@ public class ReportController {
     @GetMapping("/api/v1/report/usersTicketsAmount")
     public List<UserTicketsDTO> usersTicketsAmount(@AuthenticationPrincipal UserPrincipal principal) {
         return reportService.getUsersTicketsAmount();
+    }
+
+    @GetMapping("/api/v1/report/reservationsForUser")
+    public List<UserReservationsDTO> reservationsForUser(@AuthenticationPrincipal UserPrincipal principal) {
+        Long userId = principal.getUserId();
+        return reportService.getUserReservations(userId);
     }
 }
