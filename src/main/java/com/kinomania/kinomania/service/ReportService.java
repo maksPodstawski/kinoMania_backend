@@ -2,9 +2,7 @@ package com.kinomania.kinomania.service;
 
 import com.kinomania.kinomania.entity.Reservation;
 import com.kinomania.kinomania.entity.Seat;
-import com.kinomania.kinomania.model.ScreeningTicketsDTO;
-import com.kinomania.kinomania.model.UserReservationsDTO;
-import com.kinomania.kinomania.model.UserTicketsDTO;
+import com.kinomania.kinomania.model.*;
 import com.kinomania.kinomania.repository.ReservatedSeatsRepository;
 import com.kinomania.kinomania.repository.ReservationRepository;
 import com.kinomania.kinomania.repository.SeatsRepository;
@@ -23,6 +21,7 @@ public class ReportService {
     private final ReservatedSeatsRepository reservatedSeatsRepository;
     private final ReservationRepository reservationRepository;
     private final SeatsRepository seatsRepository;
+    private final ScreeningService screeningService;
 
     public List<ScreeningTicketsDTO> getTicketsForScreening(Long cinemaId) {
         List<Object[]> results = reservatedSeatsRepository.findReservedSeatsCountPerScreening(cinemaId);
@@ -67,14 +66,15 @@ public class ReportService {
             if (dto == null) {
                 dto = new UserReservationsDTO();
                 dto.setReservationId(reservationId);
-                dto.setRoomId(roomId);
                 dto.setSeats(new ArrayList<>());
+                dto.setScreening(screeningService.getScreeningByReservationId(reservationId));
                 reservationsMap.put(reservationId, dto);
             }
 
             Seat seat = seatsRepository.findById(seatId).orElse(null);
+            SeatDTO2 seatsDto = new SeatDTO2(seatId, seatRow, seatColumn);
             if (seat != null) {
-                dto.getSeats().add(seat);
+                dto.getSeats().add(seatsDto);
             }
         }
 

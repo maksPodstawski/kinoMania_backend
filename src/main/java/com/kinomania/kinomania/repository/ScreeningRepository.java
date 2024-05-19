@@ -16,4 +16,10 @@ public interface ScreeningRepository extends JpaRepository<Screening, Long> {
     @Modifying
     @Query("DELETE FROM Screening s WHERE s.movie.movie_id = :id")
     void deleteScreeningsByMovieId(@Param("id") Long id);
+
+
+    @Query("SELECT s FROM Screening s " +
+            "JOIN Reservation r on r.screening.screening_id = s.screening_id " +
+            "WHERE r.reservation_id = :reservationId")
+    Screening findScreeningByReservationId(Long reservationId);
 }
