@@ -1,12 +1,10 @@
 package com.kinomania.kinomania.controller;
 
-import com.kinomania.kinomania.entity.Movie;
-import com.kinomania.kinomania.entity.Screening;
-import com.kinomania.kinomania.entity.Seat;
+import com.kinomania.kinomania.entity.*;
 import com.kinomania.kinomania.service.CinemaService;
 import com.kinomania.kinomania.service.MovieService;
+import com.kinomania.kinomania.service.RoomService;
 import com.kinomania.kinomania.service.ScreeningService;
-import com.kinomania.kinomania.entity.Cinema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +18,7 @@ public class MovieController {
     private final MovieService movieService;
     private final ScreeningService screeningService;
     private final CinemaService cinemaService;
+    private final RoomService roomService;
 
 
     @GetMapping("/api/v1/movies")
@@ -56,6 +55,12 @@ public class MovieController {
     @ResponseBody
     public List<Screening> getScreeningByCity(@PathVariable String city) {
         return screeningService.getScreeningByCity(city);
+    }
+
+    @GetMapping("/api/v1/getRooms/{cinemaId}")
+    @ResponseBody
+    public List<Room> getRooms(@PathVariable Long cinemaId) {
+        return roomService.getRoomsByCinemaId(cinemaId);
     }
 
 }
