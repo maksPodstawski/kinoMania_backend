@@ -29,6 +29,8 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
+    private final EmailSenderService emailSenderService;
+
     public LoginResponse attemptLogin(String username, String password) {
 
         var token = generateAuthToken(username, password);
@@ -83,6 +85,8 @@ public class AuthService {
         user.setCreated_at(LocalDateTime.now());
 
         userRepository.save(user);
+
+        emailSenderService.sendEmail(email, "Welcome to Kinomania " + username, "Welcome to Kinomania "+ username + " ! We are glad to have you on board!");
 
         var token = generateAuthToken(username, password);
 
