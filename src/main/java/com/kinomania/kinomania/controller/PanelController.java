@@ -98,11 +98,18 @@ public class PanelController {
         return "Seats added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
     }
 
-    @DeleteMapping("/api/v1/panel/removeMovie/{movieId}")
-    public String removeMovie(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long movieId){
-        movieService.deleteMovie(movieId);
-        return "Move deleted successfully by "  + principal.getUsername() + " ID: " + principal.getUserId();
+    @PutMapping("/api/v1/panel/enableMovie/{movieId}")
+    public String enableMovie(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long movieId){
+        movieService.enableMovie(movieId);
+        return "Movie enabled successfully by "  + principal.getUsername() + " ID: " + principal.getUserId();
     }
+
+    @PutMapping("/api/v1/panel/removeMovie/{movieId}")
+    public String removeMovie(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long movieId){
+        movieService.disableMovie(movieId);
+        return "Move disablet successfully by "  + principal.getUsername() + " ID: " + principal.getUserId();
+    }
+
     @DeleteMapping("/api/v1/panel/removeCinema/{cinemaId}")
     public String removeCinema(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long cinemaId){
         cinemaService.deleteCinema(cinemaId);

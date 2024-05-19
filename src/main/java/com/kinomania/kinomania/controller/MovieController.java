@@ -25,7 +25,7 @@ public class MovieController {
     @GetMapping("/api/v1/movies")
     @ResponseBody
     public List<Movie> getMovies() {
-        return movieService.getAllMovies();
+        return movieService.getAllAvailableMovies();
     }
 
     @GetMapping("/api/v1/movie/{id}")

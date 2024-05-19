@@ -48,6 +48,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/reservatedSeats/**").permitAll()
                         .requestMatchers("/api/v1/panel").hasRole("ADMIN")
                         .requestMatchers("/api/v1/panel/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/panel/removeMovie/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/addCinema").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );

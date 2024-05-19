@@ -22,6 +22,10 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
+    public List<Movie> getAllAvailableMovies() {
+        return movieRepository.findAllAvailableMovies();
+    }
+
     public Optional<Movie> getMovieById(Long id) {
         return movieRepository.findById(id);
     }
@@ -31,6 +35,7 @@ public class MovieService {
     }
 
     public void saveMovie(Movie movie) {
+        movie.setIs_in_moviePool(true);
         movieRepository.save(movie);
     }
 
@@ -47,6 +52,16 @@ public class MovieService {
             e.printStackTrace();
         }
 
+    }
+
+    @Transactional
+    public void disableMovie(Long cinemaId) {
+        movieRepository.disableMovie(cinemaId);
+    }
+
+    @Transactional
+    public void enableMovie(Long cinemaId) {
+        movieRepository.enableMovie(cinemaId);
     }
 
 }

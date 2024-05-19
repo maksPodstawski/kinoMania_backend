@@ -32,4 +32,7 @@ public class Movie {
     @Column
     private String  img_url;
 
+    @Column
+    private Boolean is_in_moviePool;
+
 }
