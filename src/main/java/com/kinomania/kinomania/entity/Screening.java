@@ -31,9 +31,6 @@ public class Screening {
     private Date date;
 
     @Column
-    private Time time;
-
-    @Column
     private BigDecimal price;
 
 }
