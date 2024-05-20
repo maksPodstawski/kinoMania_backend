@@ -10,6 +10,5 @@ public class ScreeningDto {
     private Long movieId;
     private Long roomId;
     private String screeningDate;
-    private String screeningTime;
     private double price;
 }
