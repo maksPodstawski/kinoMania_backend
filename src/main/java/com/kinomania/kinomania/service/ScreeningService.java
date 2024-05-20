@@ -27,7 +27,6 @@ public class ScreeningService {
         screening.setDate(new SimpleDateFormat("dd-MM-yyyy").parse(screeningDto.getScreeningDate()));
         screening.setMovie(movieService.findMovieById(screeningDto.getMovieId()));
         Date date = new SimpleDateFormat("HH:mm").parse(screeningDto.getScreeningTime());
-        screening.setTime(new Time(date.getTime()));
         screening.setPrice(BigDecimal.valueOf(screeningDto.getPrice()));
         screeningRepository.save(screening);
     }

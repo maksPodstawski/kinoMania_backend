@@ -3,6 +3,7 @@ package com.kinomania.kinomania.controller;
 import com.google.zxing.WriterException;
 import com.kinomania.kinomania.entity.Movie;
 import com.kinomania.kinomania.entity.Seat;
+import com.kinomania.kinomania.model.PaymentStatusDTO;
 import com.kinomania.kinomania.model.ReservationDto;
 import com.kinomania.kinomania.model.UnLoggedUserReservationDTO;
 import com.kinomania.kinomania.security.UserPrincipal;
@@ -26,9 +27,14 @@ public class ReservationController {
 
     @PostMapping("/api/v1/reservation/addReservation")
     public String addReservation(@AuthenticationPrincipal UserPrincipal principal, @RequestBody ReservationDto reservationDto) throws MessagingException, IOException, WriterException {
-        reservationService.addReservation(reservationDto, principal);
+        reservationService.addReservation(reservationDto, principal, "");
         return "Reservation added successfully by " + principal.getUsername() + " ID: " + principal.getUserId() + " for movie: "
                 + reservationDto.getScreeningId() + " seat: " + reservationDto.getSeatsId();
+    }
+
+    @PostMapping("/api/v1/reservation/addReservationWithPayment")
+    public PaymentStatusDTO addReservationWithPayment(@AuthenticationPrincipal UserPrincipal principal, @RequestBody ReservationDto reservationDto) throws MessagingException, IOException, WriterException {
+        return reservationService.addReservationWithPayment(reservationDto, principal);
     }
 
     @GetMapping("/api/v1/seats/{roomID}")

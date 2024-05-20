@@ -4,13 +4,18 @@ import com.google.zxing.WriterException;
 import com.kinomania.kinomania.entity.Reservation;
 import com.kinomania.kinomania.entity.Seat;
 import com.kinomania.kinomania.entity.UnloggedUser;
+import com.kinomania.kinomania.model.PaymentStatusDTO;
 import com.kinomania.kinomania.model.ReservationDto;
 import com.kinomania.kinomania.model.UnLoggedUserReservationDTO;
 import com.kinomania.kinomania.repository.ReservationRepository;
 import com.kinomania.kinomania.repository.UnLoggedUserRepository;
 import com.kinomania.kinomania.security.UserPrincipal;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+import com.paypal.base.rest.PayPalRESTException;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,11 +37,45 @@ public class ReservationService {
     private final QRCodeGeneratorService qrCodeGeneratorService;
     private final UnLoggedUserRepository unLoggedUserRepository;
 
+    @Autowired
+    private final PaypalService paypalService;
+
     @Transactional
-    public void addReservation(ReservationDto reservationDto, UserPrincipal userPrincipal) throws WriterException, MessagingException, IOException {
+    public PaymentStatusDTO addReservationWithPayment(ReservationDto reservationDto, UserPrincipal userPrincipal) throws MessagingException, IOException, WriterException {
+        Double sum = reservationDto.getSeatsId().size() * screeningService.getScreeningById(reservationDto.getScreeningId()).getPrice().doubleValue();
+
+        try {
+            Payment payment = paypalService.createPayment(
+                    sum,
+                    "PLN",
+                    "paypal",
+                    "sale",
+                    "Payment for reservation",
+                    "http://localhost:5173/payment/cancel",
+                    "http://localhost:5173/payment/success");
+            addReservation(reservationDto, userPrincipal, payment.getId());
+            for (Links link : payment.getLinks()) {
+                if (link.getRel().equals("approval_url")) {
+                    var paymentStatusDTO = new PaymentStatusDTO("created");
+                    paymentStatusDTO.setUrl(link.getHref());
+                    return paymentStatusDTO;
+                }
+            }
+        } catch (PayPalRESTException e) {
+            e.printStackTrace();
+            return new PaymentStatusDTO("Error occurred: " + e.getMessage());
+        }
+        return new PaymentStatusDTO("Payment creation failed.");
+    }
+
+
+
+    @Transactional
+    public void addReservation(ReservationDto reservationDto, UserPrincipal userPrincipal, String paymentId) throws WriterException, MessagingException, IOException {
         var reservation = new Reservation();
         reservation.setUser(userService.getUserById(userPrincipal.getUserId()));
         reservation.setScreening(screeningService.getScreeningById(reservationDto.getScreeningId()));
+        reservation.setPaymentId(paymentId);
 
         reservation = reservationRepository.save(reservation);
 
@@ -58,7 +97,6 @@ public class ReservationService {
     @Transactional
     public void addUnLoggedUserReservation(UnLoggedUserReservationDTO reservationDto) throws WriterException, MessagingException, IOException {
         var unloggedUser = unLoggedUserRepository.save(new UnloggedUser(reservationDto.getName(), reservationDto.getEmail(), reservationDto.getMobile_number()));
-
 
 
         var reservation = new Reservation();
@@ -86,5 +124,9 @@ public class ReservationService {
         return reservatedSeatService.findAllReservatedSeatsByScreeningId(screeningID);
     }
 
+    @Transactional
+    public void updatePaymentStatus(String paymentId) {
+        reservationRepository.updatePayment(paymentId);
+    }
 
 }
