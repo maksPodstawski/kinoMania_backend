@@ -5,6 +5,7 @@ import com.kinomania.kinomania.model.LoginResponse;
 import com.kinomania.kinomania.model.RegisterRequest;
 import com.kinomania.kinomania.model.RegisterResponse;
 import com.kinomania.kinomania.service.AuthService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +27,7 @@ public class AuthController {
     }
     @CrossOrigin
     @PostMapping("/api/v1/auth/register")
-    public ResponseEntity<RegisterResponse> register(@RequestBody @Validated RegisterRequest request) {
+    public ResponseEntity<RegisterResponse> register(@RequestBody @Validated RegisterRequest request) throws MessagingException {
         return authService.attemptRegister(request.getUsername(), request.getEmail(), request.getPassword());
     }
 }

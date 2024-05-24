@@ -1,6 +1,8 @@
 package com.kinomania.kinomania.service;
 
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -22,13 +24,18 @@ public class EmailSenderService {
 
 
     @Async
-    public void sendEmail(String toEmail, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("kinomania2137@gmail.com");
-        message.setTo(toEmail);
-        message.setText(body);
-        message.setSubject(subject);
-
+    public void sendEmail(String toEmail, String subject, String body) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
+        message.setFrom(new InternetAddress("kinomania2137@gmail.com"));
+        helper.setTo(toEmail);
+        helper.setSubject(subject);
+        String htmlMsg = "<html><body>"
+                + "<h2 style=\"color: #007bff;\">Welcome to Kinomania, " + body + "!</h2>"
+                + "<p style=\"font-size: 16px;\">We are thrilled to have you on board.</p>"
+                + "<p style=\"font-size: 16px;\">Best regards,<br>Kinomania Team</p>"
+                + "</body></html>";
+        helper.setText(htmlMsg, true); // true indicates html
         mailSender.send(message);
 
         System.out.println("Email sent to: " + toEmail + " with subject: " + subject + " and body: " + body);

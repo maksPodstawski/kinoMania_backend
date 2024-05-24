@@ -121,6 +121,11 @@ public class PanelController {
         return "Room added successfully to Cinema by " + principal.getUsername() + " ID: " + principal.getUserId();
     }
 
+    @GetMapping("/api/v1/getRoomsByWorker")
+    public List<Room> getRoomsByWorker(@AuthenticationPrincipal UserPrincipal principal) {
+        return roomService.getRoomsByCinemaId(employeeService.getCinemaByUserId(principal.getUserId()).getCinema_id());
+    }
+
 
 
 

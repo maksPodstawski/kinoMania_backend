@@ -1,8 +1,6 @@
 package com.kinomania.kinomania.repository;
 
 import com.kinomania.kinomania.entity.Reservation;
-import com.kinomania.kinomania.entity.Seat;
-import com.kinomania.kinomania.model.UserReservationsDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -22,12 +20,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             + "WHERE r.user.user_id = :userId")
     List<Object[]> findAllByUserUserId(@Param("userId") Long userId);
 
-    @Modifying
-    Reservation findBypaymentId(String paymentId);
-
     @Transactional
     @Modifying
     @Query("UPDATE Reservation r SET r.isPaid = true WHERE r.paymentId = :paymentId")
     void updatePayment(@Param("paymentId") String paymentId);
 
+    @Query("select r from Reservation r where r.uuid = :uuid")
+    Reservation findByUuid(@Param("uuid") String uuid);
 }

@@ -129,4 +129,7 @@ public class ReservationService {
         reservationRepository.updatePayment(paymentId);
     }
 
+    public Reservation getReservationByUuid(String uuid) {
+        return reservationRepository.findByUuid(uuid);
+    }
 }

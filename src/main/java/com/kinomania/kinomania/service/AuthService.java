@@ -6,6 +6,7 @@ import com.kinomania.kinomania.model.RegisterResponse;
 import com.kinomania.kinomania.repository.UserRepository;
 import com.kinomania.kinomania.security.JwtIssuer;
 import com.kinomania.kinomania.security.UserPrincipal;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +61,7 @@ public class AuthService {
                 .build());
     }
 
-    public ResponseEntity<RegisterResponse> attemptRegister(String username, String email,String password) {
+    public ResponseEntity<RegisterResponse> attemptRegister(String username, String email,String password) throws MessagingException {
         if(userRepository.existsByUsername(username)){
             RegisterResponse response = RegisterResponse.builder()
                     .status("User already exists")

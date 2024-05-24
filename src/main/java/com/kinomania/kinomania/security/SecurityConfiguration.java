@@ -53,7 +53,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/panel/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/panel/removeMovie/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/addCinema").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/worker/addScreening").hasRole("WORKER")
                         .requestMatchers("/api/v1/payment/**").permitAll()
+                        .requestMatchers("/api/v1/getRoomsByWorker").permitAll()
                         .anyRequest().authenticated()
                 );
 

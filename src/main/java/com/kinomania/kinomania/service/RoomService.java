@@ -35,5 +35,6 @@ public class RoomService {
     public List<Room> getRoomsByCinemaId(Long cinemaId) {
         return roomRepository.findRoomByCinemaId(cinemaId);
     }
+
 }
 
