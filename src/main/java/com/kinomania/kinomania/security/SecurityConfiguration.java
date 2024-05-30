@@ -56,6 +56,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/worker/addScreening").hasRole("WORKER")
                         .requestMatchers("/api/v1/payment/**").permitAll()
                         .requestMatchers("/api/v1/getRoomsByWorker").permitAll()
+                        .requestMatchers("/api/v1/reservation/addUnLoggedUserReservationWithPayment").permitAll()
                         .anyRequest().authenticated()
                 );
 

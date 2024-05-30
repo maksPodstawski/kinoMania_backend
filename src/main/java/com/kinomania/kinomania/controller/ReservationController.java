@@ -51,9 +51,14 @@ public class ReservationController {
 
     @PostMapping("/api/v1/reservation/addUnLoggedUserReservation")
     public String addUnLoggedUserReservation(@RequestBody UnLoggedUserReservationDTO unLoggedUserReservationDTO) throws MessagingException, IOException, WriterException {
-        reservationService.addUnLoggedUserReservation(unLoggedUserReservationDTO);
+        reservationService.addUnLoggedUserReservation(unLoggedUserReservationDTO, "");
         return "Reservation added successfully for movie: "
                 + unLoggedUserReservationDTO.getScreeningId();
+    }
+
+    @PostMapping("/api/v1/reservation/addUnLoggedUserReservationWithPayment")
+    public PaymentStatusDTO addUnLoggedUserReservationWithPayment(@RequestBody UnLoggedUserReservationDTO unLoggedUserReservationDTO) throws MessagingException, IOException, WriterException {
+        return reservationService.addUnLoggedUserReservationWithPayment(unLoggedUserReservationDTO);
     }
 
 }

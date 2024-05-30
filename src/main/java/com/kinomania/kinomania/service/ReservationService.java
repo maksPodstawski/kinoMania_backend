@@ -68,6 +68,34 @@ public class ReservationService {
         return new PaymentStatusDTO("Payment creation failed.");
     }
 
+    @Transactional
+    public PaymentStatusDTO addUnLoggedUserReservationWithPayment(UnLoggedUserReservationDTO reservationDto) throws MessagingException, IOException, WriterException {
+        Double sum = reservationDto.getSeatsId().size() * screeningService.getScreeningById(reservationDto.getScreeningId()).getPrice().doubleValue();
+
+        try {
+            Payment payment = paypalService.createPayment(
+                    sum,
+                    "PLN",
+                    "paypal",
+                    "sale",
+                    "Payment for reservation",
+                    "http://localhost:5173/payment/cancel",
+                    "http://localhost:5173/payment/success");
+            addUnLoggedUserReservation(reservationDto, payment.getId());
+            for (Links link : payment.getLinks()) {
+                if (link.getRel().equals("approval_url")) {
+                    var paymentStatusDTO = new PaymentStatusDTO("created");
+                    paymentStatusDTO.setUrl(link.getHref());
+                    return paymentStatusDTO;
+                }
+            }
+        } catch (PayPalRESTException e) {
+            e.printStackTrace();
+            return new PaymentStatusDTO("Error occurred: " + e.getMessage());
+        }
+        return new PaymentStatusDTO("Payment creation failed.");
+    }
+
 
 
     @Transactional
@@ -95,13 +123,14 @@ public class ReservationService {
     }
 
     @Transactional
-    public void addUnLoggedUserReservation(UnLoggedUserReservationDTO reservationDto) throws WriterException, MessagingException, IOException {
+    public void addUnLoggedUserReservation(UnLoggedUserReservationDTO reservationDto, String paymentId) throws WriterException, MessagingException, IOException {
         var unloggedUser = unLoggedUserRepository.save(new UnloggedUser(reservationDto.getName(), reservationDto.getEmail(), reservationDto.getMobile_number()));
 
 
         var reservation = new Reservation();
         reservation.setUnloggedUser(unloggedUser);
         reservation.setScreening(screeningService.getScreeningById(reservationDto.getScreeningId()));
+        reservation.setPaymentId(paymentId);
 
         reservation = reservationRepository.save(reservation);
 
