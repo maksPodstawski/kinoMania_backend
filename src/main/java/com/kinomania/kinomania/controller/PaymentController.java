@@ -8,10 +8,7 @@ import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -48,8 +45,9 @@ public class PaymentController {
         return new PaymentStatusDTO("Payment creation failed.");
     }
 
-    @GetMapping("/api/v1/payment/cancel")
-    public String cancelPay() {
+    @DeleteMapping("/api/v1/payment/cancel")
+    public String cancelPay(@RequestParam("reservationUUID") String reservationUUID) {
+        reservationService.cancelReservation(reservationUUID);
         return "Payment cancelled";
     }
 

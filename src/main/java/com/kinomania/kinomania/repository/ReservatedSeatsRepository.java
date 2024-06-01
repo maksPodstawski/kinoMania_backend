@@ -4,6 +4,7 @@ import com.kinomania.kinomania.entity.ReservetedSeat;
 import com.kinomania.kinomania.entity.Seat;
 import com.kinomania.kinomania.model.ScreeningTicketsDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -32,4 +33,8 @@ public interface ReservatedSeatsRepository extends JpaRepository<ReservetedSeat,
             "FROM ReservetedSeat res " +
             "GROUP BY res.reservation.user.user_id")
     List<Object[]> findUsersReservationsCount();
+
+    @Modifying
+    @Query("DELETE FROM ReservetedSeat rs WHERE rs.reservation.uuid = :uuid")
+    void deleteAllByReservationUuid(String uuid);
 }

@@ -16,6 +16,8 @@ public class PaypalService {
 
     private final APIContext apiContext;
 
+
+
     public Payment createPayment(
             Double total,
             String currency,
@@ -52,6 +54,7 @@ public class PaypalService {
 
         return payment.create(apiContext);
     }
+
 
     public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException {
         Payment payment = new Payment();

@@ -36,12 +36,19 @@ public class Reservation {
     @Column(name = "is_paid")
     private Boolean isPaid;
 
-    @Column(name = "paymentId")
+    @Column(name = "payment_id")
     private String paymentId;
+
+    @Column(name = "is_canceled")
+    private Boolean isCanceled;
+
 
     @PrePersist
     protected void onCreate() {
         if(this.isPaid == null) {
+            this.isPaid = false;
+        }
+        if(this.isCanceled == null) {
             this.isPaid = false;
         }
         if (this.uuid == null) {

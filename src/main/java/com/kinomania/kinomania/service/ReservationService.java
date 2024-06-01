@@ -16,6 +16,7 @@ import com.paypal.base.rest.PayPalRESTException;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +40,13 @@ public class ReservationService {
 
     @Autowired
     private final PaypalService paypalService;
+
+    @Transactional
+    public void cancelReservation(String uuid) {
+        reservationRepository.cancelReservation(uuid);
+        reservatedSeatService.deleteReservatedSeatsByReservationUUID(uuid);
+    }
+
 
     @Transactional
     public PaymentStatusDTO addReservationWithPayment(ReservationDto reservationDto, UserPrincipal userPrincipal) throws MessagingException, IOException, WriterException {
@@ -73,15 +81,18 @@ public class ReservationService {
         Double sum = reservationDto.getSeatsId().size() * screeningService.getScreeningById(reservationDto.getScreeningId()).getPrice().doubleValue();
 
         try {
+            var reservation = addUnLoggedUserReservation(reservationDto);
             Payment payment = paypalService.createPayment(
                     sum,
                     "PLN",
                     "paypal",
                     "sale",
                     "Payment for reservation",
-                    "http://localhost:5173/payment/cancel",
+                    "http://localhost:5173/payment/cancel?uuid=" + reservation.getUuid(),
                     "http://localhost:5173/payment/success");
-            addUnLoggedUserReservation(reservationDto, payment.getId());
+
+            reservationRepository.addPaymentId(reservation.getUuid(), payment.getId());
+
             for (Links link : payment.getLinks()) {
                 if (link.getRel().equals("approval_url")) {
                     var paymentStatusDTO = new PaymentStatusDTO("created");
@@ -123,14 +134,14 @@ public class ReservationService {
     }
 
     @Transactional
-    public void addUnLoggedUserReservation(UnLoggedUserReservationDTO reservationDto, String paymentId) throws WriterException, MessagingException, IOException {
+    public Reservation addUnLoggedUserReservation(UnLoggedUserReservationDTO reservationDto) throws WriterException, MessagingException, IOException {
         var unloggedUser = unLoggedUserRepository.save(new UnloggedUser(reservationDto.getName(), reservationDto.getEmail(), reservationDto.getMobile_number()));
 
 
         var reservation = new Reservation();
         reservation.setUnloggedUser(unloggedUser);
         reservation.setScreening(screeningService.getScreeningById(reservationDto.getScreeningId()));
-        reservation.setPaymentId(paymentId);
+
 
         reservation = reservationRepository.save(reservation);
 
@@ -147,6 +158,8 @@ public class ReservationService {
                         " for movie: " + reservation.getScreening().getMovie().getTitle(),
                 qrCodeImage);
 
+
+        return reservation;
     }
 
     public List<Seat> getReservatedSeats(Long screeningID) {

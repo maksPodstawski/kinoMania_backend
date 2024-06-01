@@ -2,6 +2,7 @@ package com.kinomania.kinomania.controller;
 
 import com.google.zxing.WriterException;
 import com.kinomania.kinomania.entity.Movie;
+import com.kinomania.kinomania.entity.Reservation;
 import com.kinomania.kinomania.entity.Seat;
 import com.kinomania.kinomania.model.PaymentStatusDTO;
 import com.kinomania.kinomania.model.ReservationDto;
@@ -51,7 +52,7 @@ public class ReservationController {
 
     @PostMapping("/api/v1/reservation/addUnLoggedUserReservation")
     public String addUnLoggedUserReservation(@RequestBody UnLoggedUserReservationDTO unLoggedUserReservationDTO) throws MessagingException, IOException, WriterException {
-        reservationService.addUnLoggedUserReservation(unLoggedUserReservationDTO, "");
+        Reservation reservation = reservationService.addUnLoggedUserReservation(unLoggedUserReservationDTO);
         return "Reservation added successfully for movie: "
                 + unLoggedUserReservationDTO.getScreeningId();
     }

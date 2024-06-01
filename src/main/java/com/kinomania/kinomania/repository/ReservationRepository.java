@@ -27,4 +27,19 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query("select r from Reservation r where r.uuid = :uuid")
     Reservation findByUuid(@Param("uuid") String uuid);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Reservation r SET r.paymentId = :id WHERE r.uuid = :uuid")
+    void addPaymentId(String uuid, String id);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Reservation r WHERE r.uuid = :uuid")
+    void deleteByUUID(String uuid);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Reservation r SET r.isCanceled = true WHERE r.uuid = :uuid")
+    void cancelReservation(String uuid);
 }
