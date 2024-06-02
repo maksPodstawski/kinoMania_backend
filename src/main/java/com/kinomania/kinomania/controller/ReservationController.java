@@ -28,7 +28,7 @@ public class ReservationController {
 
     @PostMapping("/api/v1/reservation/addReservation")
     public String addReservation(@AuthenticationPrincipal UserPrincipal principal, @RequestBody ReservationDto reservationDto) throws MessagingException, IOException, WriterException {
-        reservationService.addReservation(reservationDto, principal, "");
+        reservationService.addReservation(reservationDto, principal);
         return "Reservation added successfully by " + principal.getUsername() + " ID: " + principal.getUserId() + " for movie: "
                 + reservationDto.getScreeningId() + " seat: " + reservationDto.getSeatsId();
     }

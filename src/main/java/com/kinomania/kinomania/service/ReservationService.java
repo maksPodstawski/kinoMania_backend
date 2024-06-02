@@ -53,15 +53,19 @@ public class ReservationService {
         Double sum = reservationDto.getSeatsId().size() * screeningService.getScreeningById(reservationDto.getScreeningId()).getPrice().doubleValue();
 
         try {
+            var reservation = addReservation(reservationDto, userPrincipal);
+
             Payment payment = paypalService.createPayment(
                     sum,
                     "PLN",
                     "paypal",
                     "sale",
                     "Payment for reservation",
-                    "http://localhost:5173/payment/cancel",
+                    "http://localhost:5173/payment/cancel?uuid=" + reservation.getUuid(),
                     "http://localhost:5173/payment/success");
-            addReservation(reservationDto, userPrincipal, payment.getId());
+
+            reservationRepository.addPaymentId(reservation.getUuid(), payment.getId());
+
             for (Links link : payment.getLinks()) {
                 if (link.getRel().equals("approval_url")) {
                     var paymentStatusDTO = new PaymentStatusDTO("created");
@@ -110,11 +114,10 @@ public class ReservationService {
 
 
     @Transactional
-    public void addReservation(ReservationDto reservationDto, UserPrincipal userPrincipal, String paymentId) throws WriterException, MessagingException, IOException {
+    public Reservation addReservation(ReservationDto reservationDto, UserPrincipal userPrincipal) throws WriterException, MessagingException, IOException {
         var reservation = new Reservation();
         reservation.setUser(userService.getUserById(userPrincipal.getUserId()));
         reservation.setScreening(screeningService.getScreeningById(reservationDto.getScreeningId()));
-        reservation.setPaymentId(paymentId);
 
         reservation = reservationRepository.save(reservation);
 
@@ -131,6 +134,7 @@ public class ReservationService {
                         " for movie: " + reservation.getScreening().getMovie().getTitle(),
                 qrCodeImage);
 
+        return reservation;
     }
 
     @Transactional
