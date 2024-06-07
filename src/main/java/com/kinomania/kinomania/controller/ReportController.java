@@ -1,8 +1,6 @@
 package com.kinomania.kinomania.controller;
 
 
-import com.kinomania.kinomania.entity.Movie;
-import com.kinomania.kinomania.entity.Reservation;
 import com.kinomania.kinomania.model.ScreeningTicketsDTO;
 import com.kinomania.kinomania.model.UserReservationsDTO;
 import com.kinomania.kinomania.model.UserTicketsDTO;
@@ -12,7 +10,6 @@ import com.kinomania.kinomania.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;

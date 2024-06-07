@@ -42,5 +42,9 @@ public class UserService {
     public void setUpWorkerStatus(User user){
         userRepository.updateUserRoleToWorker(user.getUser_id());
     }
+
+    public User getUserByEmail(String email) {
+        return userRepository.getUserByEmail(email);
+    }
 }
 
