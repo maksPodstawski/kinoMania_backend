@@ -127,16 +127,13 @@ public class PanelController {
         return roomService.getRoomsByCinemaId(employeeService.getCinemaByUserId(principal.getUserId()).getCinema_id());
     }
 
-
-    @GetMapping("/api/v1/panel/getAllPositions")
-    public List<Position> getAllPositions(@AuthenticationPrincipal UserPrincipal principal) {
-        return positionService.getAllPositions();
-    }
-
     @GetMapping("/api/v1/panel/getUserByEmail/{email}")
     public User getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
     }
 
-
+    @GetMapping("/api/v1/panel/getPositions")
+    public List<Position> getPositions() {
+        return positionService.getAllPositions();
+    }
 }
