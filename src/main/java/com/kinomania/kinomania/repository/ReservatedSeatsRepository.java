@@ -25,13 +25,17 @@ public interface ReservatedSeatsRepository extends JpaRepository<ReservetedSeat,
             "JOIN Reservation res ON s.screening_id = res.screening.screening_id " +
             "JOIN ReservetedSeat rs ON res.reservation_id = rs.reservation.reservation_id " +
             "WHERE c.cinema_id = :cinemaId " +
-            "GROUP BY s.screening_id")
+            "GROUP BY s.screening_id " +
+            "ORDER BY COUNT(rs.resevated_seat_id) DESC ")
     List<Object[]> findReservedSeatsCountPerScreening(@Param("cinemaId") Long cinemaId);
+
 
 
     @Query("SELECT res.reservation.user.user_id, COUNT(res.resevated_seat_id) " +
             "FROM ReservetedSeat res " +
-            "GROUP BY res.reservation.user.user_id")
+            "WHERE res.reservation.user.vip_status = false " +
+            "GROUP BY res.reservation.user.user_id"+
+            " ORDER BY COUNT(res.resevated_seat_id) DESC")
     List<Object[]> findUsersReservationsCount();
 
     @Modifying

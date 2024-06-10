@@ -57,7 +57,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/payment/**").permitAll()
                         .requestMatchers("/api/v1/getRoomsByWorker").permitAll()
                         .requestMatchers("/api/v1/reservation/addUnLoggedUserReservationWithPayment").permitAll()
-                        .requestMatchers("api/v1/payment/cancel").permitAll()
+                        .requestMatchers("/api/v1/payment/cancel").permitAll()
+                        .requestMatchers("/api/v1/worker/setVipStatus/**").hasRole("WORKER")
+                        .requestMatchers("/api/v1/worker/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
 

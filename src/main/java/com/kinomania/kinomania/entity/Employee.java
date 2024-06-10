@@ -15,7 +15,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employee_id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 

@@ -46,5 +46,9 @@ public class UserService {
     public User getUserByEmail(String email) {
         return userRepository.getUserByEmail(email);
     }
+
+    public void setVipStatus(Long userId) {
+        userRepository.setVipStatus(userId);
+    }
 }
 

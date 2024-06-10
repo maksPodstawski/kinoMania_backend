@@ -44,9 +44,11 @@ public class ReportService {
         for (Object[] result : results) {
             Long userId = (Long) result[0];
             Long ticketsAmount = (Long) result[1];
+            System.out.println(ticketsAmount);
             UserTicketsDTO userTicketsDTO = new UserTicketsDTO(userId, ticketsAmount);
             userTicketsDTOList.add(userTicketsDTO);
         }
+
 
         return userTicketsDTOList;
     }

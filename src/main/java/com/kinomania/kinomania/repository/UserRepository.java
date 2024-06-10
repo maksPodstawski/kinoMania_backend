@@ -25,5 +25,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "UPDATE users SET role = 'ROLE_WORKER' WHERE user_id = :id", nativeQuery = true)
     void updateUserRoleToWorker(@Param("id") Long id);
 
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE users SET vip_status = true WHERE user_id = :id", nativeQuery = true)
+    void setVipStatus(@Param("id") Long id);
 }
 

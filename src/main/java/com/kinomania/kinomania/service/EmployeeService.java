@@ -22,14 +22,15 @@ public class EmployeeService {
 
 
     public void save(EmployeeDto employeeDto) {
-        var employee = new Employee();
-        employee.setName(employeeDto.getName());
-        employee.setSurname(employeeDto.getSurname());
-        employee.setCinema(cinemaService.getCinemaById(employeeDto.getCinemaId()));
-        employee.setPosition(positionService.getPositionById(employeeDto.getPositionId()));
-        employee.setUser(userService.getUserById(employeeDto.getUserId()));
-        employeeRepository.save(employee);
+        var employee = Employee.builder()
+                .name(employeeDto.getName())
+                .surname(employeeDto.getSurname())
+                .cinema(cinemaService.getCinemaById(employeeDto.getCinemaId()))
+                .position(positionService.getPositionById(employeeDto.getPositionId()))
+                .user(userService.getUserById(employeeDto.getUserId()))
+                .build();
 
+        employeeRepository.save(employee);
         userService.setUpWorkerStatus(employee.getUser());
 
     }
