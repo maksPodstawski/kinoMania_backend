@@ -1,24 +1,20 @@
-package com.kinomania.kinomania.model;
-
+package com.kinomania.kinomania.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "cinemas")
+@Table(name = "positions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Cinema {
+public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cinema_id;
+    private Long position_id;
 
     @Column
-    private String address;
-
-    @Column
-    private String city;
+    private String position_name;
 }

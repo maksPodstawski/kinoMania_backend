@@ -1,4 +1,4 @@
-package com.kinomania.kinomania.model;
+package com.kinomania.kinomania.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,7 +15,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employee_id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 
@@ -23,7 +23,13 @@ public class Employee {
     @JoinColumn(name="user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "position_id")
     private Position position;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "surname")
+    private String surname;
 }

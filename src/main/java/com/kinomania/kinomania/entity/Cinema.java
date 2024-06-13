@@ -1,26 +1,27 @@
-package com.kinomania.kinomania.model;
+package com.kinomania.kinomania.entity;
+
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "cinemas")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class Cinema {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long cinema_id;
 
     @Column
-    private String username;
+    private String address;
 
     @Column
-    private String password;
+    private String city;
 
     @Column
-    private boolean vip_status;
+    private String image_url;
 }

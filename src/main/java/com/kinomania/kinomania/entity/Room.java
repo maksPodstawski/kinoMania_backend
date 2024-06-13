@@ -1,4 +1,4 @@
-package com.kinomania.kinomania.model;
+package com.kinomania.kinomania.entity;
 
 
 import jakarta.persistence.*;

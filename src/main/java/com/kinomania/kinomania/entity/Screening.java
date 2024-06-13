@@ -1,4 +1,4 @@
-package com.kinomania.kinomania.model;
+package com.kinomania.kinomania.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,9 +29,6 @@ public class Screening {
 
     @Column
     private Date date;
-
-    @Column
-    private Time time;
 
     @Column
     private BigDecimal price;

@@ -1,4 +1,4 @@
-package com.kinomania.kinomania.model;
+package com.kinomania.kinomania.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,5 +31,8 @@ public class Movie {
 
     @Column
     private String  img_url;
+
+    @Column
+    private Boolean is_in_moviePool;
 
 }
