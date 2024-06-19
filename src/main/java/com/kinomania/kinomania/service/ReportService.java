@@ -9,6 +9,10 @@ import com.kinomania.kinomania.repository.SeatsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +41,50 @@ public class ReportService {
         return screeningTicketsDTOList;
     }
 
-    public List<UserTicketsDTO> getUsersTicketsAmount( ) {
-        List<Object[]> results = reservatedSeatsRepository.findUsersReservationsCount();
+    public List<CinemaTicketsDTO> getTicketsPerCinema(LocalDateTime startDate, LocalDateTime endDate) {
+        List<Object[]> results = reservatedSeatsRepository.findReservedSeatsCountPerCinema(Timestamp.valueOf(startDate), Timestamp.valueOf(endDate));
+        List<CinemaTicketsDTO> cinemaTicketsDTOList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Long cinemaId = (Long) result[0];
+            Long purchasedTicketsCount = (Long) result[1];
+            CinemaTicketsDTO cinemaTicketsDTO = new CinemaTicketsDTO(cinemaId, purchasedTicketsCount);
+            cinemaTicketsDTOList.add(cinemaTicketsDTO);
+        }
+
+        return cinemaTicketsDTOList;
+    }
+
+    public List<CinemaIncomeDTO> getTotalTicketPricePerCinema(LocalDateTime startDate, LocalDateTime endDate){
+        List<Object[]> results = reservatedSeatsRepository.findTotalTicketPricePerCinema(Timestamp.valueOf(startDate), Timestamp.valueOf(endDate));
+        List<CinemaIncomeDTO> cinemaIncomeDTOList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Long cinemaId = (Long) result[0];
+            BigDecimal totalTicketPrice = (BigDecimal) result[1];
+            CinemaIncomeDTO cinemaIncomeDTO = new CinemaIncomeDTO(cinemaId, totalTicketPrice);
+            cinemaIncomeDTOList.add(cinemaIncomeDTO);
+        }
+
+        return cinemaIncomeDTOList;
+    }
+
+    public List<MovieTicketsDTO> getReservedSeatsCountPerMovie(LocalDateTime startDate, LocalDateTime endDate){
+        List<Object[]> results = reservatedSeatsRepository.findReservedSeatsCountPerMovie(Timestamp.valueOf(startDate), Timestamp.valueOf(endDate));
+        List<MovieTicketsDTO> movieTicketsDTOList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Long movieId = (Long) result[0];
+            Long purchasedTicketsCount = (Long) result[1];
+            MovieTicketsDTO movieTicketsDTO = new MovieTicketsDTO(movieId, purchasedTicketsCount);
+            movieTicketsDTOList.add(movieTicketsDTO);
+        }
+
+        return movieTicketsDTOList;
+    }
+
+    public List<UserTicketsDTO> getUsersTicketsAmount(LocalDateTime startDate, LocalDateTime endDate) {
+        List<Object[]> results = reservatedSeatsRepository.findUsersReservationsCount(Timestamp.valueOf(startDate), Timestamp.valueOf(endDate));
         List<UserTicketsDTO> userTicketsDTOList = new ArrayList<>();
 
         for (Object[] result : results) {
