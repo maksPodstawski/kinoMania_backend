@@ -1,6 +1,7 @@
 package com.kinomania.kinomania.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Table(name = "reserveted_seats")
@@ -18,10 +19,12 @@ public class ReservetedSeat {
 
     @ManyToOne
     @JoinColumn(name = "reservation_id")
+    @NotBlank
     private Reservation reservation;
 
     @ManyToOne
     @JoinColumn(name = "seat_id")
+    @NotBlank
     private Seat seat;
 
 }

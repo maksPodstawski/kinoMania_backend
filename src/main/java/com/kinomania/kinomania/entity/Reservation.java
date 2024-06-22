@@ -1,6 +1,7 @@
 package com.kinomania.kinomania.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name="screening_id")
+    @NotBlank
     private Screening screening;
 
     @ManyToOne

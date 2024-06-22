@@ -1,6 +1,7 @@
 package com.kinomania.kinomania.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -17,19 +18,24 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name = "cinema_id")
+    @NotBlank
     private Cinema cinema;
 
     @OneToOne
     @JoinColumn(name="user_id")
+    @NotBlank
     private User user;
 
     @ManyToOne
+    @NotBlank
     @JoinColumn(name = "position_id")
     private Position position;
 
     @Column(name = "name")
+    @NotBlank
     private String name;
 
     @Column(name = "surname")
+    @NotBlank
     private String surname;
 }

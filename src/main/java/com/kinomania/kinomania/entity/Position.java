@@ -1,6 +1,7 @@
 package com.kinomania.kinomania.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -16,5 +17,6 @@ public class Position {
     private Long position_id;
 
     @Column
+    @NotBlank
     private String position_name;
 }

@@ -2,6 +2,7 @@ package com.kinomania.kinomania.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,19 +22,24 @@ public class User {
     private Long user_id;
 
     @Column(unique = true, nullable = false)
+    @NotBlank
     private String username;
 
     @Column(unique = true, nullable = false)
+    @NotBlank
     private String email;
 
     @Column
     @JsonIgnore
+    @NotBlank
     private String password;
 
     @Column
+    @NotBlank
     private boolean vip_status;
 
     @Column
+    @NotBlank
     private String role;
 
     @Column

@@ -2,6 +2,7 @@ package com.kinomania.kinomania.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -19,9 +20,11 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "cinema_id")
+    @NotBlank
     private Cinema cinema;
 
     @Column
+    @NotBlank
     private int room_number;
 
     @Column

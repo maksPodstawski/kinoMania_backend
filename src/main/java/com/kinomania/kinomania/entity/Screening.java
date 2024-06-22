@@ -1,6 +1,7 @@
 package com.kinomania.kinomania.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -21,16 +22,20 @@ public class Screening {
 
     @ManyToOne
     @JoinColumn(name="movie_id")
+    @NotBlank
     private Movie movie;
 
     @ManyToOne
     @JoinColumn(name="room_id")
+    @NotBlank
     private Room room;
 
     @Column
+    @NotBlank
     private Date date;
 
     @Column
+    @NotBlank
     private BigDecimal price;
 
 }
