@@ -35,7 +35,6 @@ public class User {
     private String password;
 
     @Column
-    @NotBlank
     private boolean vip_status;
 
     @Column
