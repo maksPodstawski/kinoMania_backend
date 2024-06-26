@@ -21,7 +21,6 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name="screening_id")
-    @NotBlank
     private Screening screening;
 
     @ManyToOne

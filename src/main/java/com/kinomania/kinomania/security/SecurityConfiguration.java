@@ -48,6 +48,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/getRooms/**").permitAll()
                         .requestMatchers("/api/v1/reservatedSeats/**").permitAll()
                         .requestMatchers("/api/v1/payment/success").permitAll()
+                        .requestMatchers("/api/v1/updatePassword").permitAll()
+                        .requestMatchers("/api/v1/passwordRecovery/{email}").permitAll()
                         .requestMatchers("/api/v1/reservation/addUnLoggedUserReservation").permitAll()
                         .requestMatchers("/api/v1/panel").hasRole("ADMIN")
                         .requestMatchers("/api/v1/panel/**").hasRole("ADMIN")

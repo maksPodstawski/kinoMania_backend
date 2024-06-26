@@ -50,5 +50,9 @@ public class UserService {
     public void setVipStatus(Long userId) {
         userRepository.setVipStatus(userId);
     }
+
+    public void updatePassword(User user){
+        userRepository.save(user);
+    }
 }
 

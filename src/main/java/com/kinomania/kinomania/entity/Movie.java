@@ -16,27 +16,21 @@ public class Movie {
     private Long movie_id;
 
     @Column
-    @NotBlank
     private String title;
 
     @Column
-    @NotBlank
     private String director;
 
     @Column
-    @NotBlank
     private String genre;
 
     @Column
-    @NotBlank
     private String description;
 
     @Column
-    @NotBlank
     private int duration;
 
     @Column
-    @NotBlank
     private String  img_url;
 
     @Column

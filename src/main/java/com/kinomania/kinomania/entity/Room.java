@@ -20,7 +20,6 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "cinema_id")
-    @NotBlank
     private Cinema cinema;
 
     @Column

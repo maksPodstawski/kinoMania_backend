@@ -19,12 +19,10 @@ public class ReservetedSeat {
 
     @ManyToOne
     @JoinColumn(name = "reservation_id")
-    @NotBlank
     private Reservation reservation;
 
     @ManyToOne
     @JoinColumn(name = "seat_id")
-    @NotBlank
     private Seat seat;
 
 }
