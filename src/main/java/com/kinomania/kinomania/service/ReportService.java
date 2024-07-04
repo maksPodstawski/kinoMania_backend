@@ -1,6 +1,5 @@
 package com.kinomania.kinomania.service;
 
-import com.kinomania.kinomania.entity.Reservation;
 import com.kinomania.kinomania.entity.Seat;
 import com.kinomania.kinomania.model.*;
 import com.kinomania.kinomania.repository.ReservatedSeatsRepository;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +24,9 @@ public class ReportService {
     private final ReservationRepository reservationRepository;
     private final SeatsRepository seatsRepository;
     private final ScreeningService screeningService;
+    private final CinemaService cinemaService;
+    private final MovieService movieService;
+    private final UserService userService;
 
     public List<ScreeningTicketsDTO> getTicketsForScreening(Long cinemaId) {
         List<Object[]> results = reservatedSeatsRepository.findReservedSeatsCountPerScreening(cinemaId);
@@ -48,7 +49,8 @@ public class ReportService {
         for (Object[] result : results) {
             Long cinemaId = (Long) result[0];
             Long purchasedTicketsCount = (Long) result[1];
-            CinemaTicketsDTO cinemaTicketsDTO = new CinemaTicketsDTO(cinemaId, purchasedTicketsCount);
+            String cinemaName = cinemaService.getCinemaById(cinemaId).getAddress();
+            CinemaTicketsDTO cinemaTicketsDTO = new CinemaTicketsDTO(cinemaId, cinemaName,purchasedTicketsCount);
             cinemaTicketsDTOList.add(cinemaTicketsDTO);
         }
 
@@ -62,7 +64,8 @@ public class ReportService {
         for (Object[] result : results) {
             Long cinemaId = (Long) result[0];
             BigDecimal totalTicketPrice = (BigDecimal) result[1];
-            CinemaIncomeDTO cinemaIncomeDTO = new CinemaIncomeDTO(cinemaId, totalTicketPrice);
+            String cinemaAddress= cinemaService.getCinemaById(cinemaId).getAddress();
+            CinemaIncomeDTO cinemaIncomeDTO = new CinemaIncomeDTO(cinemaId, cinemaAddress,totalTicketPrice);
             cinemaIncomeDTOList.add(cinemaIncomeDTO);
         }
 
@@ -76,7 +79,8 @@ public class ReportService {
         for (Object[] result : results) {
             Long movieId = (Long) result[0];
             Long purchasedTicketsCount = (Long) result[1];
-            MovieTicketsDTO movieTicketsDTO = new MovieTicketsDTO(movieId, purchasedTicketsCount);
+            String movieTitle = movieService.getMovieById(movieId).get().getTitle();
+            MovieTicketsDTO movieTicketsDTO = new MovieTicketsDTO(movieId, movieTitle,purchasedTicketsCount);
             movieTicketsDTOList.add(movieTicketsDTO);
         }
 
@@ -91,7 +95,8 @@ public class ReportService {
             Long userId = (Long) result[0];
             Long ticketsAmount = (Long) result[1];
             System.out.println(ticketsAmount);
-            UserTicketsDTO userTicketsDTO = new UserTicketsDTO(userId, ticketsAmount);
+            String userName = userService.getUserById(userId).getUsername();
+            UserTicketsDTO userTicketsDTO = new UserTicketsDTO(userId, userName,ticketsAmount);
             userTicketsDTOList.add(userTicketsDTO);
         }
 

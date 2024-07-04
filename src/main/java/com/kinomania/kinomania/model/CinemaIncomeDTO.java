@@ -11,5 +11,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class CinemaIncomeDTO {
     private Long cinemaId;
+    private String cinemaAddress;
     private BigDecimal income;
 }

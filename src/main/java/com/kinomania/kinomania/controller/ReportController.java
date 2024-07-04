@@ -8,9 +8,7 @@ import com.kinomania.kinomania.service.ReportService;
 import com.kinomania.kinomania.service.TimeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,7 +29,7 @@ public class ReportController {
         return reportService.getTicketsForScreening(cinemaId);
     }
 
-    @GetMapping("/api/v1/report/usersTicketsAmount")
+    @PostMapping("/api/v1/report/usersTicketsAmount")
     public List<UserTicketsDTO> usersTicketsAmount(@AuthenticationPrincipal UserPrincipal principal, @RequestBody TimeSpanDTO timeSpanDTO) {
         return reportService.getUsersTicketsAmount(TimeService.parseDate(timeSpanDTO.getStartDate()), TimeService.parseDate(timeSpanDTO.getEndDate()));
     }
@@ -42,17 +40,17 @@ public class ReportController {
         return reportService.getUserReservations(userId);
     }
 
-    @GetMapping("/api/v1/report/ticketsPerCinema")
+    @PostMapping("/api/v1/report/ticketsPerCinema")
     public List<CinemaTicketsDTO> ticketsPerCinema(@AuthenticationPrincipal UserPrincipal principal, @RequestBody TimeSpanDTO timeSpanDTO) {
         return reportService.getTicketsPerCinema(TimeService.parseDate(timeSpanDTO.getStartDate()), TimeService.parseDate(timeSpanDTO.getEndDate()));
     }
 
-    @GetMapping("/api/v1/report/ticketsPerMovie")
+    @PostMapping("/api/v1/report/ticketsPerMovie")
     public List<MovieTicketsDTO> ticketsPerMovie(@AuthenticationPrincipal UserPrincipal principal, @RequestBody TimeSpanDTO timeSpanDTO) {
         return reportService.getReservedSeatsCountPerMovie(TimeService.parseDate(timeSpanDTO.getStartDate()), TimeService.parseDate(timeSpanDTO.getEndDate()));
     }
 
-    @GetMapping("/api/v1/report/incomePerCinema")
+    @PostMapping("/api/v1/report/incomePerCinema")
     public List<CinemaIncomeDTO> incomePerCinema(@AuthenticationPrincipal UserPrincipal principal, @RequestBody TimeSpanDTO timeSpanDTO) {
         return reportService.getTotalTicketPricePerCinema(TimeService.parseDate(timeSpanDTO.getStartDate()), TimeService.parseDate(timeSpanDTO.getEndDate()));
     }

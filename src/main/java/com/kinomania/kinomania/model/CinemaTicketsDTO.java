@@ -8,5 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 public class CinemaTicketsDTO {
     private Long cinemaId;
+    private String cinemaAddress;
     private Long ticketsCount;
 }

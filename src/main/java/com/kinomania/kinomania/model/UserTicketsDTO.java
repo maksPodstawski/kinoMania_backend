@@ -9,5 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserTicketsDTO {
     private Long userId;
+    private String userName;
     private Long ticketsCount;
 }

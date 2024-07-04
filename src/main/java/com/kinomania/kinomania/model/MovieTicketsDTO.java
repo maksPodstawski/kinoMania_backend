@@ -9,5 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MovieTicketsDTO {
     private Long movieId;
+    private String movieTitle;
     private Long ticketsCount;
 }
