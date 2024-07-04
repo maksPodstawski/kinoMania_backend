@@ -54,4 +54,5 @@ public class ReportController {
     public List<CinemaIncomeDTO> incomePerCinema(@AuthenticationPrincipal UserPrincipal principal, @RequestBody TimeSpanDTO timeSpanDTO) {
         return reportService.getTotalTicketPricePerCinema(TimeService.parseDate(timeSpanDTO.getStartDate()), TimeService.parseDate(timeSpanDTO.getEndDate()));
     }
+
 }
