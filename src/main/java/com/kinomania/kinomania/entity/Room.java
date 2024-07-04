@@ -23,7 +23,6 @@ public class Room {
     private Cinema cinema;
 
     @Column
-    @NotBlank
     private int room_number;
 
     @Column

@@ -19,11 +19,9 @@ public class Cinema {
     private Long cinema_id;
 
     @Column
-    @NotBlank
     private String address;
 
     @Column
-    @NotBlank
     private String city;
 
     @Column

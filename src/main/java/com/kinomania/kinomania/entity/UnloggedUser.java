@@ -17,13 +17,10 @@ public class UnloggedUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long unlogged_user_id;
 
-    @NotBlank
     private String email;
 
-    @NotBlank
     private String name;
 
-    @NotBlank
     private String mobile_number;
 
     public UnloggedUser(String name, String email, String mobileNumber) {

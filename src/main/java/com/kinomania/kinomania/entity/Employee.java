@@ -18,24 +18,19 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name = "cinema_id")
-    @NotBlank
     private Cinema cinema;
 
     @OneToOne
     @JoinColumn(name="user_id")
-    @NotBlank
     private User user;
 
     @ManyToOne
-    @NotBlank
     @JoinColumn(name = "position_id")
     private Position position;
 
     @Column(name = "name")
-    @NotBlank
     private String name;
 
     @Column(name = "surname")
-    @NotBlank
     private String surname;
 }

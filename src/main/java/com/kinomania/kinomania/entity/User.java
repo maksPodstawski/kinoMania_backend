@@ -22,23 +22,19 @@ public class User {
     private Long user_id;
 
     @Column(unique = true, nullable = false)
-    @NotBlank
     private String username;
 
     @Column(unique = true, nullable = false)
-    @NotBlank
     private String email;
 
     @Column
     @JsonIgnore
-    @NotBlank
     private String password;
 
     @Column
     private boolean vip_status;
 
     @Column
-    @NotBlank
     private String role;
 
     @Column

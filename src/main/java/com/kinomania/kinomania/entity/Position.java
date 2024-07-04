@@ -17,6 +17,5 @@ public class Position {
     private Long position_id;
 
     @Column
-    @NotBlank
     private String position_name;
 }
