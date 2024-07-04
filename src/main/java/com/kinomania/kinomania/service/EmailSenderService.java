@@ -87,15 +87,13 @@ public class EmailSenderService {
                 + "<body>"
                 + "<div class='welcome-container'>"
                 + "<div class='logo'>"
-                + "<img src='https://cdn.discordapp.com/attachments/1051917796004593686/1248583497032138852/kinomanialogo.jpg?ex=6664317f&is=6662dfff&hm=9108ac9a747202b9fa0a1d8f3f27695e1dfe6c11c4f913de5c3613e690021a42&' alt='Kinomania Logo'>"
                 + "</div>"
-                + "<h2>" + body + "!</h2>"
-                + "<p>We are thrilled to have you on board.</p>"
+                + "<h2>" + body + "</h2>"
                 + "<p>Best regards,<br>Kinomania Team</p>"
                 + "</div>"
                 + "</body>"
                 + "</html>";
-        helper.setText(htmlMsg, true); // true indicates html
+        helper.setText(htmlMsg, true);
         mailSender.send(message);
 
         System.out.println("Email sent to: " + toEmail + " with subject: " + subject + " and body: " + body);

@@ -1,5 +1,4 @@
 package com.kinomania.kinomania.model;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,8 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserTicketsDTO {
-    private Long userId;
-    private String userName;
-    private Long ticketsCount;
+public class RecoverPasswordDTO {
+    private String newPassword;
+    private String recoveryCode;
 }

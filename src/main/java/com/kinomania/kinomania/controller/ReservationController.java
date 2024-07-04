@@ -6,6 +6,7 @@ import com.kinomania.kinomania.entity.Reservation;
 import com.kinomania.kinomania.entity.Seat;
 import com.kinomania.kinomania.model.PaymentStatusDTO;
 import com.kinomania.kinomania.model.ReservationDto;
+import com.kinomania.kinomania.model.ResponseDTO;
 import com.kinomania.kinomania.model.UnLoggedUserReservationDTO;
 import com.kinomania.kinomania.security.UserPrincipal;
 import com.kinomania.kinomania.service.ReservationService;
@@ -27,10 +28,12 @@ public class ReservationController {
 
 
     @PostMapping("/api/v1/reservation/addReservation")
-    public String addReservation(@AuthenticationPrincipal UserPrincipal principal, @RequestBody ReservationDto reservationDto) throws MessagingException, IOException, WriterException {
+    public ResponseDTO addReservation(@AuthenticationPrincipal UserPrincipal principal, @RequestBody ReservationDto reservationDto) throws MessagingException, IOException, WriterException {
+        if (reservationDto.getSeatsId().isEmpty() || reservationDto.getScreeningId() == null) {
+            return new ResponseDTO(0L, "All fields must be filled");
+        }
         reservationService.addReservation(reservationDto, principal);
-        return "Reservation added successfully by " + principal.getUsername() + " ID: " + principal.getUserId() + " for movie: "
-                + reservationDto.getScreeningId() + " seat: " + reservationDto.getSeatsId();
+        return new ResponseDTO(1L, "Reservation added successfully");
     }
 
     @PostMapping("/api/v1/reservation/addReservationWithPayment")
@@ -40,21 +43,24 @@ public class ReservationController {
 
     @GetMapping("/api/v1/seats/{roomID}")
     @ResponseBody
-    public List<Seat> getSeats(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long roomID){
+    public List<Seat> getSeats(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long roomID) {
         return seatsService.getSeatsByRoomId(roomID);
     }
 
     @GetMapping("/api/v1/reservatedSeats/{screeningID}")
     @ResponseBody
-    public List<Seat> getReservatedSeats(@PathVariable Long screeningID){
+    public List<Seat> getReservatedSeats(@PathVariable Long screeningID) {
         return reservationService.getReservatedSeats(screeningID);
     }
 
     @PostMapping("/api/v1/reservation/addUnLoggedUserReservation")
-    public String addUnLoggedUserReservation(@RequestBody UnLoggedUserReservationDTO unLoggedUserReservationDTO) throws MessagingException, IOException, WriterException {
+    public ResponseDTO addUnLoggedUserReservation(@RequestBody UnLoggedUserReservationDTO unLoggedUserReservationDTO) throws MessagingException, IOException, WriterException {
+        if (unLoggedUserReservationDTO.getSeatsId().isEmpty() || unLoggedUserReservationDTO.getScreeningId() == null || unLoggedUserReservationDTO.getName().trim().isEmpty() ||
+                unLoggedUserReservationDTO.getMobile_number().trim().isEmpty() || unLoggedUserReservationDTO.getEmail().trim().isEmpty()) {
+            return new ResponseDTO(0L, "All fields must be filled");
+        }
         Reservation reservation = reservationService.addUnLoggedUserReservation(unLoggedUserReservationDTO);
-        return "Reservation added successfully for movie: "
-                + unLoggedUserReservationDTO.getScreeningId();
+        return new ResponseDTO(1L, "Reservation added successfully");
     }
 
     @PostMapping("/api/v1/reservation/addUnLoggedUserReservationWithPayment")

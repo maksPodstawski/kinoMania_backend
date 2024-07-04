@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserTicketsDTO {
-    private Long userId;
-    private String userName;
-    private Long ticketsCount;
+public class CinemaIncomeDTO {
+    private Long cinemaId;
+    private String cinemaAddress;
+    private BigDecimal income;
 }

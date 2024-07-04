@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserTicketsDTO {
-    private Long userId;
-    private String userName;
-    private Long ticketsCount;
+public class TimeSpanDTO {
+    private String startDate;
+    private String endDate;
 }

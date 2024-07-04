@@ -3,6 +3,8 @@ package com.kinomania.kinomania.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import jakarta.validation.constraints.*;
+
 
 @Entity
 @Table(name = "cinemas")

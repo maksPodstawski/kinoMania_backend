@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserTicketsDTO {
-    private Long userId;
-    private String userName;
+public class MovieTicketsDTO {
+    private Long movieId;
+    private String movieTitle;
     private Long ticketsCount;
 }

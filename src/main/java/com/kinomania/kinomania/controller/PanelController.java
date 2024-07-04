@@ -6,7 +6,6 @@ import com.kinomania.kinomania.repository.CinemaRepository;
 import com.kinomania.kinomania.security.UserPrincipal;
 import com.kinomania.kinomania.service.*;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +28,14 @@ public class PanelController {
     private final PositionService positionService;
 
     @PostMapping("/api/v1/panel/addMovie")
-    public String addMovie(@AuthenticationPrincipal UserPrincipal principal, @RequestBody Movie movie) {
+    public ResponseDTO addMovie(@AuthenticationPrincipal UserPrincipal principal, @RequestBody Movie movie) {
+        if (movie.getDescription().trim().isEmpty() || movie.getDirector().trim().isEmpty() ||
+                movie.getGenre().trim().isEmpty() || movie.getTitle().trim().isEmpty() || movie.getDuration() <= 0 ||
+                movie.getImg_url().trim().isEmpty()) {
+            return new ResponseDTO(0L, "All fields must be filled");
+        }
         movieService.saveMovie(movie);
-        return "Movie added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
+        return new ResponseDTO(1L, "Movie added successfully");
     }
 
     @GetMapping("/api/v1/panel/admin")
@@ -40,47 +44,63 @@ public class PanelController {
     }
 
     @PostMapping("/api/v1/panel/addCinema")
-    public String addCinema(@AuthenticationPrincipal UserPrincipal principal, @RequestBody Cinema cinema) {
+    public ResponseDTO addCinema(@AuthenticationPrincipal UserPrincipal principal, @RequestBody Cinema cinema) {
+        if (cinema.getAddress().trim().isEmpty() || cinema.getCity().trim().isEmpty() ||
+                cinema.getImage_url().trim().isEmpty()) {
+            return new ResponseDTO(0L, "All fields must be filled");
+        }
         cinemaService.save(cinema);
-        return "Cinema added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
+        return new ResponseDTO(1L, "Cinema added successfully");
     }
 
     @PostMapping("/api/v1/panel/addEmployee")
-    public String addEmployee(@AuthenticationPrincipal UserPrincipal principal, @RequestBody EmployeeDto employeeDto) {
+    public ResponseDTO addEmployee(@AuthenticationPrincipal UserPrincipal principal, @RequestBody EmployeeDto employeeDto) {
+        if (employeeDto.getSurname().trim().isEmpty() || employeeDto.getName().trim().isEmpty() ||
+                employeeDto.getUserId() == null || employeeDto.getPositionId() == null || employeeDto.getCinemaId() == null) {
+            return new ResponseDTO(0L, "All fields must be filled");
+        }
         employeeService.save(employeeDto);
-        return "Employee added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
+        return new ResponseDTO(1L, "Employee added successfully");
     }
 
     @PostMapping("/api/v1/panel/addRoom")
-    public String addRoom(@AuthenticationPrincipal UserPrincipal principal, @RequestBody RoomDto roomDto) {
+    public ResponseDTO addRoom(@AuthenticationPrincipal UserPrincipal principal, @RequestBody RoomDto roomDto) {
+        if(roomDto.getRoomNumber() <= 0 || roomDto.getCinemaId() == null) {
+            return new ResponseDTO(0L, "All fields must be filled");
+        }
         roomService.save(roomDto);
-        return "Room added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
+        return new ResponseDTO(1L, "Room added successfully");
     }
 
     @PostMapping("/api/v1/panel/addScreening")
-    public String addScreening(@AuthenticationPrincipal UserPrincipal principal, @RequestBody ScreeningDto screeningDto) throws ParseException {
+    public ResponseDTO addScreening(@AuthenticationPrincipal UserPrincipal principal, @RequestBody ScreeningDto screeningDto) throws ParseException {
+        if(screeningDto.getMovieId() == null || screeningDto.getRoomId() == null || screeningDto.getScreeningDate() == null) {
+            return new ResponseDTO(0L, "All fields must be filled");
+        }
         screeningService.save(screeningDto);
-        return "Screening added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
+        return new ResponseDTO(1L, "Screening added successfully");
     }
 
     @PostMapping("/api/v1/panel/addRoomWithSeats")
-    public String addRoomWithSeats(@AuthenticationPrincipal UserPrincipal principal, @RequestBody SeatsAndRoomDTO seatsAndRoomDTO) {
+    public ResponseDTO addRoomWithSeats(@AuthenticationPrincipal UserPrincipal principal, @RequestBody SeatsAndRoomDTO seatsAndRoomDTO) {
+        if(seatsAndRoomDTO.getColumns() <= 0 || seatsAndRoomDTO.getRows() <= 0 || seatsAndRoomDTO.getRoomNumber() <= 0 || seatsAndRoomDTO.getCinemaId() == null) {
+            return new ResponseDTO(0L, "All fields must be filled");
+        }
         RoomDto roomDto = RoomDto.builder()
-                                 .cinemaId(seatsAndRoomDTO.getCinemaId())
-                                 .roomNumber(seatsAndRoomDTO.getRoomNumber())
-                                 .build();
+                .cinemaId(seatsAndRoomDTO.getCinemaId())
+                .roomNumber(seatsAndRoomDTO.getRoomNumber())
+                .build();
 
         Room room = roomService.save(roomDto);
 
         SeatsDto seatsDto = SeatsDto.builder()
-                                    .RoomId(room.getRoom_id())
-                                    .Rows(seatsAndRoomDTO.getRows())
-                                    .Columns(seatsAndRoomDTO.getColumns())
-                                    .build();
+                .RoomId(room.getRoom_id())
+                .Rows(seatsAndRoomDTO.getRows())
+                .Columns(seatsAndRoomDTO.getColumns())
+                .build();
         seatsService.saveAllSeats(seatsDto);
-        return "Room with seats added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
+        return new ResponseDTO(1L, "Room with seats added successfully");
     }
-
 
 
     @GetMapping("/api/v1/panel/getUsers")
@@ -94,32 +114,36 @@ public class PanelController {
     }
 
     @PostMapping("/api/v1/panel/addSeatsToRoom")
-    public String addRoomToSeats(@AuthenticationPrincipal UserPrincipal principal, @RequestBody SeatsDto seatsDto) {
+    public ResponseDTO addRoomToSeats(@AuthenticationPrincipal UserPrincipal principal, @RequestBody SeatsDto seatsDto) {
+        if(seatsDto.getRoomId() == null || seatsDto.getRows() <= 0 || seatsDto.getColumns() <= 0) {
+            return new ResponseDTO(0L, "All fields must be filled");
+        }
         seatsService.saveAllSeats(seatsDto);
-        return "Seats added successfully by " + principal.getUsername() + " ID: " + principal.getUserId();
+        return new ResponseDTO(1L, "Seats added successfully");
     }
 
     @PutMapping("/api/v1/panel/enableMovie/{movieId}")
-    public String enableMovie(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long movieId){
+    public ResponseDTO enableMovie(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long movieId) {
         movieService.enableMovie(movieId);
-        return "Movie enabled successfully by "  + principal.getUsername() + " ID: " + principal.getUserId();
+        return new ResponseDTO(1L, "Movie enabled successfully");
     }
 
     @PutMapping("/api/v1/panel/removeMovie/{movieId}")
-    public String removeMovie(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long movieId){
+    public ResponseDTO removeMovie(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long movieId) {
         movieService.disableMovie(movieId);
-        return "Move disablet successfully by "  + principal.getUsername() + " ID: " + principal.getUserId();
+        return new ResponseDTO(1L, "Move disabled successfully");
     }
 
     @DeleteMapping("/api/v1/panel/removeCinema/{cinemaId}")
-    public String removeCinema(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long cinemaId){
+    public ResponseDTO removeCinema(@AuthenticationPrincipal UserPrincipal principal, @PathVariable Long cinemaId) {
         cinemaService.deleteCinema(cinemaId);
-        return "Cinema deleted successfully by "  + principal.getUsername() + " ID: " + principal.getUserId();
+        return new ResponseDTO(1L, "Cinema deleted successfully");
     }
+
     @PostMapping("/api/v1/panel/addRoomToCinema")
-    public String addRoomToCinema(@AuthenticationPrincipal UserPrincipal principal, @RequestBody RoomDto roomDto) {
+    public ResponseDTO addRoomToCinema(@AuthenticationPrincipal UserPrincipal principal, @RequestBody RoomDto roomDto) {
         roomService.save(roomDto);
-        return "Room added successfully to Cinema by " + principal.getUsername() + " ID: " + principal.getUserId();
+        return new ResponseDTO(1L, "Room added successfully to Cinema");
     }
 
     @GetMapping("/api/v1/getRoomsByWorker")
